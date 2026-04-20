@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -282,4 +283,290 @@ window.addEventListener("pageshow", () => {
 });
 </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Men Collection | Echo Perfume</title>
+
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="video-container">
+        <video autoplay="" muted="" loop="" id="bg-video">
+            <source src="image/Smoke_Smok.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+<!-- NAVBAR (reuse mo lang) -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo">Echo <span>Perfume</span></a>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="men.html" class="active">Men</a>
+            <a href="women.html">Women</a>
+             <a href="collections.html">Collections</a>
+        </div>
+
+        <div class="nav-icons">
+            <a href="#" class="nav-icon"><i class="fas fa-search"></i></a>
+            <a href="#" class="nav-icon cart-icon">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count">0</span>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+        <h3>Your Cart</h3>
+        <i class="fas fa-times close-cart" id="closeCart"></i>
+    </div>
+
+    <div class="cart-content"></div>
+
+    <div class="cart-footer">
+        <p>Total: <strong>$0.00</strong></p>
+
+        <button class="view-cart-btn" onclick="window.location.href='cart.html'">
+            View Cart
+        </button>
+
+        <button class="checkout-btn" onclick="window.location.href='checkout.html'">
+            Checkout
+        </button>
+    </div>
+</div>
+<!-- HERO -->
+<section class="hero small-hero">
+    <div class="hero-content">
+        <h1 class="gradient-heading">Men’s <span>Collection</span></h1>
+        <p>Bold. Strong. Timeless fragrances for modern men.</p>
+    </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products">
+    <h2 class="section-title">Shop <span>Men</span></h2>
+
+    <div class="product-grid">
+
+        <!-- Product 1 -->
+        <div class="product-card">
+            <div class="product-img">
+                <img src="image/men1.png">
+                <div class="product-overlay">
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3>Dark Knight</h3>
+                <p class="product-desc">Woody & spicy scent for confidence</p>
+                <p class="price">$199</p>
+            </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card">
+            <div class="product-img">
+                <img src="image/men2.png">
+                <div class="product-overlay">
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3>Steel Essence</h3>
+                <p class="product-desc">Fresh citrus with a strong finish</p>
+                <p class="price">$175</p>
+            </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card">
+            <div class="product-img">
+                <img src="image/men3.png">
+                <div class="product-overlay">
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3>Shadow Oud</h3>
+                <p class="product-desc">Deep oud with smoky layers</p>
+                <p class="price">$250</p>
+            </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card">
+            <div class="product-img">
+                <img src="image/men4.png">
+                <div class="product-overlay">
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3>Royal Black</h3>
+                <p class="product-desc">Luxury scent with amber & musk</p>
+                <p class="price">$220</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+// fix quantity
+cart.forEach(item => {
+    if (!item.quantity) item.quantity = 1;
+});
+
+const cartIcon = document.querySelector(".cart-icon");
+const cartDrawer = document.getElementById("cartDrawer");
+const closeCart = document.getElementById("closeCart");
+const cartCount = document.querySelector(".cart-count");
+const cartContent = document.querySelector(".cart-content");
+
+// OPEN CART
+cartIcon.addEventListener("click", (e) => {
+    e.preventDefault();
+    cartDrawer.classList.add("active");
+    renderCart();
+});
+
+// CLOSE CART
+closeCart.addEventListener("click", () => {
+    cartDrawer.classList.remove("active");
+});
+
+// SAVE
+function saveCart() {
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// COUNT
+function updateCartCount() {
+    let total = 0;
+    cart.forEach(item => total += item.quantity);
+
+    if (cartCount) cartCount.innerText = total;
+}
+
+// RENDER CART (WITH DELETE + QTY)
+function renderCart() {
+
+    let total = 0;
+    cartContent.innerHTML = "";
+
+    cart.forEach(item => {
+
+        let price = parseFloat(item.price.replace("$", ""));
+        total += price * item.quantity;
+
+        cartContent.innerHTML += `
+        <div class="cart-item">
+            <img src="${item.img}">
+
+            <div class="item-info">
+                <h4>${item.name}</h4>
+                <p>${item.price}</p>
+            </div>
+
+            <div class="qty-controls">
+                <button onclick="decreaseQty('${item.name}')">−</button>
+                <span>${item.quantity}</span>
+                <button onclick="increaseQty('${item.name}')">+</button>
+            </div>
+
+            <i class="fas fa-trash delete-btn" onclick="removeItem('${item.name}')"></i>
+        </div>
+        `;
+    });
+
+    document.querySelector(".cart-footer strong").innerText = "$" + total.toFixed(2);
+
+    updateCartCount();
+}
+
+// ADD TO CART
+document.querySelectorAll(".add-to-cart").forEach(btn => {
+    btn.addEventListener("click", () => {
+
+        const card = btn.closest(".product-card");
+
+        const product = {
+            name: btn.dataset.product || card.querySelector("h3").innerText,
+            img: card.querySelector("img").src,
+            price: card.querySelector(".price").innerText,
+            quantity: 1
+        };
+
+        const existing = cart.find(i => i.name === product.name);
+
+        if (existing) {
+            existing.quantity++;
+        } else {
+            cart.push(product);
+        }
+
+        saveCart();
+        renderCart();
+    });
+});
+
+// QTY + -
+function increaseQty(name) {
+    const item = cart.find(p => p.name === name);
+    if (item) item.quantity++;
+
+    saveCart();
+    renderCart();
+}
+
+function decreaseQty(name) {
+    const item = cart.find(p => p.name === name);
+
+    if (item) {
+        item.quantity--;
+        if (item.quantity <= 0) {
+            cart = cart.filter(p => p.name !== name);
+        }
+    }
+
+    saveCart();
+    renderCart();
+}
+
+// DELETE
+function removeItem(name) {
+    cart = cart.filter(item => item.name !== name);
+
+    saveCart();
+    renderCart();
+}
+
+// INIT
+renderCart();
+updateCartCount();
+
+window.addEventListener("pageshow", () => {
+    cart = JSON.parse(localStorage.getItem("cart")) || [];
+    renderCart();
+});
+</script>
+</body>
+>>>>>>> ebfa88542db5b9665f91098a57f6db0c7f62759e
 </html>
