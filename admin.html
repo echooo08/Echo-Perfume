@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Echo Perfumes — Admin Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+
+body{background:#f5f5f7;color:#1a1a1a}
+
+/* SIDEBAR */
+.sidebar{
+  width:220px;
+  background:#111;
+  height:100vh;
+  position:fixed;
+  padding:20px 14px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.logo-area{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:20px;
+  padding:4px;
+}
+.logo-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:#c084fc;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.logo-icon i{color:#fff;font-size:15px}
+.logo-text{color:#fff;font-size:15px;font-weight:bold;line-height:1.2}
+.logo-sub{color:#888;font-size:11px}
+
+.menu a{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 12px;
+  color:#ccc;
+  text-decoration:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:14px;
+  transition:background .15s,color .15s;
+}
+.menu a:hover,.menu a.active{background:#d4af37;color:#000}
+.menu a i{width:16px;text-align:center;font-size:13px}
+.menu .logout-link{margin-top:auto}
+
+/* MAIN */
+.main{
+  margin-left:220px;
+  padding:24px;
+  min-height:100vh;
+}
+
+/* TOPBAR */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+.topbar h2{font-size:20px;color:#1a1a1a}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.premium-pill{
+  background:#f3e8ff;color:#7c3aed;
+  font-size:12px;font-weight:bold;
+  padding:5px 12px;border-radius:20px;
+}
+.avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:#c084fc;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:bold;color:#fff;
+}
+.logout-btn{
+  background:red;color:#fff;
+  padding:8px 14px;border:none;
+  border-radius:6px;cursor:pointer;
+  font-size:13px;
+}
+
+/* SECTIONS */
+.section{display:none}
+.section.active{display:block}
+
+/* METRIC CARDS */
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:14px;
+  margin-bottom:20px;
+}
+.mcard{
+  background:#fff;
+  border-radius:10px;
+  padding:16px;
+  border:1px solid #e8e8e8;
+}
+.mcard-label{font-size:11px;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.mcard-val{font-size:24px;font-weight:bold;color:#1a1a1a}
+.mcard-sub{font-size:11px;margin-top:4px}
+.mcard-sub.up{color:#16a34a}
+.mcard-sub.dn{color:#dc2626}
+
+/* CHART GRID */
+.charts-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-bottom:16px;
+}
+.chart-card{
+  background:#fff;
+  border-radius:12px;
+  border:1px solid #e8e8e8;
+  padding:18px;
+}
+.chart-title{
+  font-size:14px;font-weight:bold;color:#1a1a1a;
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:6px;
+}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#666}
+.leg-sq{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+
+/* TOP PRODUCTS */
+.prod-row{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid #f0f0f0;
+}
+.prod-row:last-child{border-bottom:none}
+.prod-emoji{
+  width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.prod-info{flex:1}
+.prod-name{font-size:13px;font-weight:bold;color:#1a1a1a}
+.prod-cat{font-size:11px;color:#888}
+.prod-bar-wrap{height:3px;background:#f0f0f0;border-radius:4px;margin-top:5px}
+.prod-bar{height:3px;border-radius:4px}
+.prod-rev{font-size:13px;font-weight:bold;color:#1a1a1a;white-space:nowrap}
+
+/* PRODUCTS TABLE */
+.add-box{margin-bottom:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.add-box input{
+  padding:9px 12px;border-radius:6px;
+  border:1px solid #ddd;font-size:13px;width:200px;
+}
+.add-box button{
+  padding:9px 16px;background:#d4af37;
+  border:none;border-radius:6px;
+  font-weight:bold;cursor:pointer;font-size:13px;
+}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #e8e8e8}
+th{background:#f8f8f8;padding:12px 14px;text-align:left;font-size:12px;color:#666;text-transform:uppercase;letter-spacing:.4px}
+td{padding:12px 14px;border-bottom:1px solid #f0f0f0;font-size:13px}
+tr:last-child td{border-bottom:none}
+.btn-edit{background:#d4af37;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;font-size:12px}
+.btn-delete{background:red;color:#fff;border:none;padding:5px 10px;border-radius:5px;cursor:pointer;font-size:12px}
+
+/* ORDERS */
+.order-card{
+  background:#fff;border-radius:10px;
+  padding:18px;margin-bottom:12px;
+  border:1px solid #e8e8e8;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.order-info{display:flex;align-items:center;gap:14px}
+.order-num{font-size:13px;font-weight:bold;color:#1a1a1a}
+.order-name{font-size:13px;color:#555}
+.order-badge{
+  font-size:11px;padding:4px 10px;border-radius:20px;font-weight:bold;
+}
+.badge-delivered{background:#dcfce7;color:#16a34a}
+.badge-pending{background:#fef9c3;color:#a16207}
+.order-price{font-size:15px;font-weight:bold;color:#1a1a1a}
+
+@media(max-width:900px){
+  .charts-row{grid-template-columns:1fr}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ===== DARK + SMOKE THEME ADD-ON ===== */
+
+/* Background video */
+.video-bg{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-2;
+  overflow:hidden;
+}
+.video-bg video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.video-overlay{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.75);
+}
+
+/* Force dark mode */
+body{
+  background:#0b0b0b !important;
+  color:#fff !important;
+}
+
+/* Glass effect cards */
+.mcard,
+.chart-card,
+table,
+.order-card{
+  background:rgba(255,255,255,0.05) !important;
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.08) !important;
+  color:#fff;
+}
+
+/* Text fixes */
+.topbar h2,
+.mcard-val,
+.prod-name,
+.order-num,
+.order-price{
+  color:#fff !important;
+}
+
+.mcard-label,
+.prod-cat{
+  color:#aaa !important;
+}
+
+/* Sidebar glass */
+.sidebar{
+  background:rgba(0,0,0,0.85) !important;
+  backdrop-filter:blur(10px);
+}
+
+/* Table dark */
+th{
+  background:rgba(255,255,255,0.05) !important;
+  color:#aaa !important;
+}
+td{
+  border-bottom:1px solid rgba(255,255,255,0.05) !important;
+}
+
+/* Inputs dark */
+.add-box input{
+  background:#111 !important;
+  border:1px solid #333 !important;
+  color:#fff !important;
+}
+
+/* Glow hover (premium feel) */
+.menu a:hover,
+.menu a.active{
+  background:#d4af37 !important;
+  color:#000 !important;
+  box-shadow:0 0 10px rgba(212,175,55,0.6);
+}
+
+/* Order badges tweak */
+.badge-delivered{
+  background:#052e16 !important;
+  color:#4ade80 !important;
+}
+.badge-pending{
+  background:#3f2d04 !important;
+  color:#facc15 !important;
+}
+
+
+/* ===== TEXT IMPROVEMENT (WHITE + BIGGER) ===== */
+
+/* Global text */
+body{
+  color:#ffffff !important;
+  font-size:16px;
+}
+
+/* Headings */
+.topbar h2{
+  font-size:26px !important;
+  font-weight:bold;
+}
+
+/* Sidebar text */
+.menu a{
+  font-size:15px !important;
+  color:#fff !important;
+}
+
+/* Metric cards */
+.mcard-label{
+  font-size:13px !important;
+  color:#ddd !important;
+}
+.mcard-val{
+  font-size:28px !important;
+}
+.mcard-sub{
+  font-size:13px !important;
+}
+
+/* Chart titles */
+.chart-title{
+  font-size:16px !important;
+  color:#fff !important;
+}
+
+/* Legends */
+.leg-item{
+  font-size:13px !important;
+  color:#ddd !important;
+}
+
+/* Top products */
+.prod-name{
+  font-size:15px !important;
+}
+.prod-cat{
+  font-size:13px !important;
+}
+.prod-rev{
+  font-size:15px !important;
+}
+
+/* Table */
+th{
+  font-size:13px !important;
+}
+td{
+  font-size:14px !important;
+}
+
+/* Inputs */
+.add-box input{
+  font-size:14px !important;
+}
+
+/* Buttons */
+.add-box button,
+.btn-edit,
+.btn-delete{
+  font-size:13px !important;
+}
+
+/* Orders */
+.order-num{
+  font-size:15px !important;
+}
+.order-name{
+  font-size:14px !important;
+}
+.order-price{
+  font-size:16px !important;
+}
+
+/* Premium badge */
+.premium-pill{
+  font-size:13px !important;
+}
+
+/* Avatar text */
+.avatar{
+  font-size:14px !important;
+}
+
+/* ===== NEW ORDER UI (FIGMA STYLE) ===== */
+
+.order-stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+  margin-bottom:20px;
+}
+
+.order-stat{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  padding:16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.order-stat i{
+  font-size:18px;
+  padding:10px;
+  border-radius:10px;
+}
+
+.stat-pending i{background:#1f2937;color:#9ca3af;}
+.stat-processing i{background:#3f2d04;color:#facc15;}
+.stat-shipped i{background:#1e3a8a;color:#60a5fa;}
+.stat-delivered i{background:#052e16;color:#4ade80;}
+
+.order-stat-text{
+  font-size:13px;
+  color:#aaa;
+}
+.order-stat-val{
+  font-size:22px;
+  font-weight:bold;
+  color:#fff;
+}
+
+/* TABLE STYLE */
+.orders-table{
+  background:rgba(255,255,255,0.05);
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.orders-table table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.orders-table th{
+  text-align:left;
+  padding:14px;
+  font-size:12px;
+  color:#aaa;
+}
+
+.orders-table td{
+  padding:14px;
+  font-size:14px;
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+
+/* Status badge modern */
+.status{
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+  display:inline-block;
+}
+
+.status-delivered{
+  background:#052e16;
+  color:#4ade80;
+}
+.status-pending{
+  background:#3f2d04;
+  color:#facc15;
+}
+.status-shipped{
+  background:#1e3a8a;
+  color:#60a5fa;
+}
+.status-processing{
+  background:#1f2937;
+  color:#9ca3af;
+}
+
+
+/* PRODUCT GRID */
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:16px;
+}
+
+/* PRODUCT CARD */
+.product-card{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px;
+  overflow:hidden;
+  backdrop-filter:blur(12px);
+  transition:.3s;
+}
+
+.product-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* IMAGE */
+.product-img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+
+/* INFO */
+.product-info{
+  padding:14px;
+}
+
+.product-title{
+  font-size:15px;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+.product-category{
+  font-size:12px;
+  color:#aaa;
+  margin-bottom:10px;
+}
+
+.product-price{
+  font-size:16px;
+  font-weight:bold;
+  color:#d4af37;
+}
+
+/* ACTIONS */
+.product-actions{
+  display:flex;
+  justify-content:space-between;
+  margin-top:12px;
+}
+
+.product-actions button{
+  flex:1;
+  margin:2px;
+  border:none;
+  padding:6px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+}
+
+.btn-edit{background:#d4af37;color:#000;}
+.btn-delete{background:red;color:#fff;}
+
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.7);
+  z-index:9999;
+}
+
+.modal-content{
+  width:350px;
+  background:rgba(20,20,20,0.95);
+  margin:8% auto;
+  padding:20px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.1);
+  backdrop-filter:blur(10px);
+}
+
+.modal-content h2{
+  color:#fff;
+  margin-bottom:15px;
+}
+
+.modal-content input,
+.modal-content select{
+  width:100%;
+  padding:8px;
+  margin:6px 0 12px;
+  background:#111;
+  border:1px solid #333;
+  color:#fff;
+  border-radius:6px;
+}
+
+.modal-buttons{
+  display:flex;
+  justify-content:space-between;
+}
+
+.save-btn{
+  background:#d4af37;
+  border:none;
+  padding:8px 14px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.cancel-btn{
+  background:red;
+  border:none;
+  padding:8px 14px;
+  color:#fff;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+
+</style>
+</head>
+<body>
+
+        <!-- SMOKE BACKGROUND -->
+<div class="video-bg">
+  <video autoplay muted loop>
+    <source src="image/SmokeSmok.mp4" type="video/mp4">
+  </video>
+  <div class="video-overlay"></div>
+</div>
+
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="logo-area">
+    <div class="logo-icon"><i class="fas fa-spa"></i></div>
+    <div>
+      <div class="logo-text">Echo Perfumes</div>
+      <div class="logo-sub">Admin Panel</div>
+    </div>
+  </div>
+
+  <div class="menu">
+ 
+    <a onclick="show('dashboard')" id="nav-dashboard" class="active">
+      <i class="fas fa-chart-line"></i> Dashboard
+    </a>
+
+       <a onclick="show('users')" id="nav-users">
+  <i class="fas fa-user"></i> Users
+</a>
+    <a onclick="show('products')" id="nav-products">
+      <i class="fas fa-box"></i> Products
+    </a>
+    <a onclick="show('orders')" id="nav-orders">
+      <i class="fas fa-shopping-cart"></i> Orders
+    </a>
+    <a onclick="logout()" style="margin-top:auto">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- ===== DASHBOARD ===== -->
+  <div id="dashboard" class="section active">
+    <div class="topbar">
+      <h2>Dashboard</h2>
+      <div class="topbar-right">
+        <span class="premium-pill">Premium</span>
+        <div class="avatar">EP</div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <!-- Metric cards -->
+    <div class="metrics">
+      <div class="mcard">
+        <div class="mcard-label">Total revenue</div>
+        <div class="mcard-val">$284K</div>
+        <div class="mcard-sub up">&#8679; +12.4% this month</div>
+      </div>
+      <div class="mcard">
+        <div class="mcard-label">Orders</div>
+        <div class="mcard-val">1,842</div>
+        <div class="mcard-sub up">&#8679; +8.1% this month</div>
+      </div>
+      <div class="mcard">
+        <div class="mcard-label">Products</div>
+        <div class="mcard-val" id="prodCount">0</div>
+        <div class="mcard-sub up">&#8679; +4 this month</div>
+      </div>
+      <div class="mcard">
+        <div class="mcard-label">Avg. order value</div>
+        <div class="mcard-val">$154</div>
+        <div class="mcard-sub dn">&#8681; -2.3% this month</div>
+      </div>
+    </div>
+
+    <!-- Charts row 1 -->
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">&#10022; Sales Performance</div>
+        <div style="position:relative;height:200px">
+          <canvas id="salesChart"></canvas>
+        </div>
+        <div class="legend">
+          <div class="leg-item"><span class="leg-sq" style="background:#c084fc"></span>Revenue ($)</div>
+          <div class="leg-item"><span class="leg-sq" style="background:#d4af37;border-radius:0"></span>Units sold</div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-title">&#9825; Category Distribution</div>
+        <div style="position:relative;height:170px">
+          <canvas id="pieChart"></canvas>
+        </div>
+        <div class="legend">
+          <div class="leg-item"><span class="leg-sq" style="background:#e879f9"></span>Floral 29%</div>
+          <div class="leg-item"><span class="leg-sq" style="background:#a78bfa"></span>Woody 22%</div>
+          <div class="leg-item"><span class="leg-sq" style="background:#d4af37"></span>Citrus 19%</div>
+          <div class="leg-item"><span class="leg-sq" style="background:#34d399"></span>Fresh 17%</div>
+          <div class="leg-item"><span class="leg-sq" style="background:#60a5fa"></span>Oriental 13%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts row 2 -->
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">&#9734; Fragrance Profile Analysis</div>
+        <div style="position:relative;height:200px">
+          <canvas id="radarChart"></canvas>
+        </div>
+        <div class="legend">
+          <div class="leg-item"><span class="leg-sq" style="background:#c084fc"></span>Avg product</div>
+          <div class="leg-item"><span class="leg-sq" style="background:#d4af37;border-radius:0"></span>Top seller</div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-title">&#8599; Top Selling Perfumes</div>
+        <div class="prod-row">
+          <div class="prod-emoji" style="background:#fdf4ff">🌹</div>
+          <div class="prod-info">
+            <div class="prod-name">Midnight Rose</div>
+            <div class="prod-cat">Floral &middot; 342 units</div>
+            <div class="prod-bar-wrap"><div class="prod-bar" style="width:88%;background:#e879f9"></div></div>
+          </div>
+          <div class="prod-rev">$42,530</div>
+        </div>
+        <div class="prod-row">
+          <div class="prod-emoji" style="background:#fefce8">&#10024;</div>
+          <div class="prod-info">
+            <div class="prod-name">Golden Essence</div>
+            <div class="prod-cat">Woody &middot; 289 units</div>
+            <div class="prod-bar-wrap"><div class="prod-bar" style="width:74%;background:#a78bfa"></div></div>
+          </div>
+          <div class="prod-rev">$38,210</div>
+        </div>
+        <div class="prod-row">
+          <div class="prod-emoji" style="background:#ecfdf5">🌿</div>
+          <div class="prod-info">
+            <div class="prod-name">Ocean Breeze</div>
+            <div class="prod-cat">Fresh &middot; 241 units</div>
+            <div class="prod-bar-wrap"><div class="prod-bar" style="width:62%;background:#34d399"></div></div>
+          </div>
+          <div class="prod-rev">$29,880</div>
+        </div>
+        <div class="prod-row">
+          <div class="prod-emoji" style="background:#fff7ed">🍊</div>
+          <div class="prod-info">
+            <div class="prod-name">Citrus Bloom</div>
+            <div class="prod-cat">Citrus &middot; 198 units</div>
+            <div class="prod-bar-wrap"><div class="prod-bar" style="width:51%;background:#d4af37"></div></div>
+          </div>
+          <div class="prod-rev">$21,450</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PRODUCTS ===== -->
+<!-- ===== PRODUCTS ===== -->
+<div id="products" class="section">
+
+  <div class="topbar">
+    <h2>Products</h2>
+    <button class="logout-btn" onclick="openModal()">
+      <i class="fas fa-plus"></i> Add Product
+    </button>
+  </div>
+
+  <!-- GRID -->
+  <div id="productGrid" class="product-grid"></div>
+
+  <!-- TABLE (optional - pwede mo alisin kung grid lang gusto mo) -->
+  <table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th>Stock</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody id="productList"></tbody>
+</table>
+
+</div>
+
+  <!-- ===== ORDERS ===== -->
+ <div id="orders" class="section">
+  <div class="topbar">
+    <h2>Orders</h2>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+
+  <!-- STATS -->
+  <div class="order-stats">
+    <div class="order-stat stat-pending">
+      <i class="fas fa-clock"></i>
+      <div>
+        <div class="order-stat-text">Pending</div>
+        <div class="order-stat-val">24</div>
+      </div>
+    </div>
+
+    <div class="order-stat stat-processing">
+      <i class="fas fa-box"></i>
+      <div>
+        <div class="order-stat-text">Processing</div>
+        <div class="order-stat-val">18</div>
+      </div>
+    </div>
+
+    <div class="order-stat stat-shipped">
+      <i class="fas fa-truck"></i>
+      <div>
+        <div class="order-stat-text">Shipped</div>
+        <div class="order-stat-val">45</div>
+      </div>
+    </div>
+
+    <div class="order-stat stat-delivered">
+      <i class="fas fa-check"></i>
+      <div>
+        <div class="order-stat-text">Delivered</div>
+        <div class="order-stat-val">822</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- TABLE -->
+  <div class="orders-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Products</th>
+          <th>Total</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>#ORD-2847</td>
+          <td>Emma Thompson</td>
+          <td>2 items</td>
+          <td>$150</td>
+          <td>2026-04-18</td>
+          <td><span class="status status-delivered">Delivered</span></td>
+        </tr>
+
+        <tr>
+          <td>#ORD-2846</td>
+          <td>James Wilson</td>
+          <td>1 item</td>
+          <td>$75</td>
+          <td>2026-04-18</td>
+          <td><span class="status status-shipped">Shipped</span></td>
+        </tr>
+
+        <tr>
+          <td>#ORD-2845</td>
+          <td>Sophie Martinez</td>
+          <td>3 items</td>
+          <td>$225</td>
+          <td>2026-04-17</td>
+          <td><span class="status status-processing">Processing</span></td>
+        </tr>
+
+        <tr>
+          <td>#ORD-2844</td>
+          <td>Michael Chen</td>
+          <td>1 item</td>
+          <td>$85</td>
+          <td>2026-04-17</td>
+          <td><span class="status status-delivered">Delivered</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ===== USERS ===== -->
+<div id="users" class="section">
+
+  <div class="topbar">
+    <h2>Users</h2>
+    <button class="logout-btn" onclick="addUser()">
+      <i class="fas fa-user-plus"></i> Add User
+    </button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Number</th>
+        <th>Role</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody id="userList"></tbody>
+  </table>
+
+</div>
+
+
+<script>
+/* ---- Products ---- */
+let products = JSON.parse(localStorage.getItem('products')) || [];
+
+function show(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+
+  document.querySelectorAll('.menu a').forEach(a=>a.classList.remove('active'));
+
+  const nav = document.getElementById('nav-'+id);
+  if(nav) nav.classList.add('active');
+
+  if(id === "users") renderUsers();
+}
+
+function render(){
+  const list = document.getElementById('productList');
+  list.innerHTML = '';
+
+  products.forEach((p,i)=>{
+
+    let status = p.stock > 5 ? "In Stock" : "Low Stock";
+    let statusClass = p.stock > 5 ? "status-delivered" : "status-pending";
+
+    list.innerHTML += `
+      <tr>
+        <td style="display:flex;align-items:center;gap:10px;">
+          <img src="${p.image || 'https://via.placeholder.com/40'}"
+               style="width:40px;height:40px;border-radius:8px;object-fit:cover;">
+          <span>${p.name}</span>
+        </td>
+
+        <td>${p.category}</td>
+        <td>${p.price}</td>
+        <td>${p.stock}</td>
+
+        <td>
+          <span class="status ${statusClass}">
+            ${status}
+          </span>
+        </td>
+
+        <td>
+          <button class="btn-edit" onclick="editProduct(${i})">
+            <i class="fas fa-pen"></i>
+          </button>
+          <button class="btn-delete" onclick="del(${i})">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+
+  document.getElementById('prodCount').innerText = products.length;
+  localStorage.setItem('products', JSON.stringify(products));
+}
+
+function openModal(){
+  document.getElementById("productModal").style.display = "block";
+}
+
+function closeModal(){
+  document.getElementById("productModal").style.display = "none";
+}
+
+/* SAVE PRODUCT FROM MODAL */
+function saveProduct(){
+  const name = document.getElementById('modalName').value.trim();
+  const price = document.getElementById('modalPrice').value.trim();
+  const category = document.getElementById('modalCategory').value;
+  const stock = document.getElementById('modalStock').value;
+  const imageInput = document.getElementById('modalImage');
+
+  if(!name || !price || !category || !stock){
+    alert("Complete all fields!");
+    return;
+  }
+
+  let image = "";
+
+  if(imageInput.files && imageInput.files[0]){
+    image = URL.createObjectURL(imageInput.files[0]);
+  }
+
+  products.push({
+    name,
+    price,
+    category,
+    stock: Number(stock),
+    image
+  });
+
+  document.getElementById('modalName').value = "";
+  document.getElementById('modalPrice').value = "";
+  document.getElementById('modalCategory').value = "";
+  document.getElementById('modalStock').value = "";
+  document.getElementById('modalImage').value = "";
+
+  closeModal();
+  render();
+}
+function editProduct(i){
+  const newName = prompt('Edit product name:', products[i].name);
+  const newPrice = prompt('Edit price:', products[i].price);
+  const newCategory = prompt('Edit category (Men/Women/Collection):', products[i].category);
+
+  if(newName && newPrice && newCategory){
+    products[i] = {
+      name: newName,
+      price: newPrice,
+      category: newCategory
+    };
+    render();
+  }
+}
+
+function del(i){
+  if(confirm('Delete "'+products[i].name+'"?')){
+    products.splice(i,1);
+    render();
+  }
+}
+
+function logout(){
+  if(confirm('Log out?')) alert('Logged out successfully.');
+}
+
+render();
+
+/* ---- Charts ---- */
+// Sales line chart
+new Chart(document.getElementById('salesChart'),{
+  type:'line',
+  data:{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'],
+    datasets:[
+      {
+        label:'Revenue',
+        data:[18000,22000,19500,26000,24000,28000,31000,35000],
+        borderColor:'#c084fc',
+        backgroundColor:'rgba(192,132,252,0.08)',
+        tension:0.4,pointRadius:3,
+        pointBackgroundColor:'#c084fc',
+        fill:true,yAxisID:'y'
+      },
+      {
+        label:'Units',
+        data:[120,148,130,175,160,190,210,242],
+        borderColor:'#d4af37',
+        borderDash:[4,3],
+        backgroundColor:'transparent',
+        tension:0.4,pointRadius:3,
+        pointStyle:'rect',
+        pointBackgroundColor:'#d4af37',
+        fill:false,yAxisID:'y1'
+      }
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:10},color:'#888'}},
+      y:{position:'left',grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:10},color:'#888',callback:v=>'$'+(v/1000)+'k'}},
+      y1:{position:'right',grid:{display:false},ticks:{font:{size:10},color:'#888'}}
+    }
+  }
+});
+
+// Doughnut chart
+new Chart(document.getElementById('pieChart'),{
+  type:'doughnut',
+  data:{
+    labels:['Floral','Woody','Citrus','Fresh','Oriental'],
+    datasets:[{
+      data:[29,22,19,17,13],
+      backgroundColor:['#e879f9','#a78bfa','#d4af37','#34d399','#60a5fa'],
+      borderWidth:3,
+      borderColor:'#fff'
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    cutout:'58%',
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.parsed+'%'}}
+    }
+  }
+});
+
+// Radar chart
+new Chart(document.getElementById('radarChart'),{
+  type:'radar',
+  data:{
+    labels:['Longevity','Projection','Freshness','Warmth','Depth'],
+    datasets:[
+      {
+        label:'Avg product',
+        data:[82,70,65,74,78],
+        borderColor:'#c084fc',
+        backgroundColor:'rgba(192,132,252,0.15)',
+        pointBackgroundColor:'#c084fc',
+        pointRadius:3
+      },
+      {
+        label:'Top seller',
+        data:[90,85,55,80,88],
+        borderColor:'#d4af37',
+        borderDash:[4,3],
+        backgroundColor:'rgba(212,175,55,0.08)',
+        pointBackgroundColor:'#d4af37',
+        pointRadius:3,
+        pointStyle:'rect'
+      }
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{r:{
+      ticks:{display:false,stepSize:20},
+      grid:{color:'rgba(0,0,0,0.1)'},
+      pointLabels:{font:{size:11},color:'#555'},
+      min:0,max:100
+    }}
+  }
+});
+
+
+
+let users = JSON.parse(localStorage.getItem('users')) || [
+  {name:"Admin User", email:"admin@echo.com", number:"09123456789", role:"Admin"}
+];
+
+function renderUsers(){
+  const list = document.getElementById('userList');
+
+  if(!list) return; // 🛑 prevent error if section not loaded
+
+  list.innerHTML = "";
+
+  users.forEach((u,i)=>{
+    list.innerHTML += `
+      <tr>
+        <td>${u.name}</td>
+        <td>${u.email}</td>
+        <td>${u.number}</td>
+        <td>${u.role}</td>
+        <td>
+          <button class="btn-edit" onclick="editUser(${i})">
+            <i class="fas fa-pen"></i>
+          </button>
+          <button class="btn-delete" onclick="deleteUser(${i})">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+
+  localStorage.setItem('users', JSON.stringify(users));
+}
+
+function addUser(){
+  const name = prompt("Enter name:");
+  const email = prompt("Enter email:");
+  const number = prompt("Enter number:");
+  const role = prompt("Enter role (Admin/User):");
+
+  if(name && email){
+    users.push({name,email,number,role});
+    renderUsers();
+  }
+}
+
+
+function editUser(i){
+  const u = users[i];
+
+  const name = prompt("Edit name:", u.name);
+  const email = prompt("Edit email:", u.email);
+  const number = prompt("Edit number:", u.number);
+  const role = prompt("Edit role:", u.role);
+
+  if(name && email){
+    users[i] = {name,email,number,role};
+    renderUsers();
+  }
+
+  renderUsers();
+}
+
+function deleteUser(i){
+  if(confirm("Delete user?")){
+    users.splice(i,1);
+    renderUsers();
+  }
+}
+
+
+
+
+renderUsers();
+show('dashboard');
+</script>
+
+<!-- PRODUCT MODAL -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <h2>Add Product</h2>
+
+    <label>Product Image</label>
+    <input type="file" id="modalImage" accept="image/*">
+
+    <label>Product Name</label>
+    <input type="text" id="modalName" placeholder="Enter product name">
+
+    <label>Category</label>
+    <select id="modalCategory">
+      <option value="">Select Category</option>
+      <option value="Men">Men</option>
+      <option value="Women">Women</option>
+      <option value="Collection">Collection</option>
+    </select>
+
+    <label>Stock</label>
+<input type="number" id="modalStock" placeholder="Enter stock quantity">
+
+    <label>Price</label>
+    <input type="text" id="modalPrice" placeholder="Enter price">
+
+    <div class="modal-buttons">
+      <button class="save-btn" onclick="saveProduct()">Save</button>
+      <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+</body>
+</html>

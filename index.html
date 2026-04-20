@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Perfume | Luxury Perfumes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;✨&lt;/text&gt;&lt;/svg&gt;">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Video -->
+    <div class="video-container">
+        <video autoplay="" muted="" loop="" id="bg-video">
+            <source src="image\Smoke_Smok.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- Sticky Navbar -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#" class="logo">Echo <span>Perfume</span></a>
+                
+                <div class="nav-links" id="navLinks">
+                    <a href="#home" class="active">Home</a>
+                    <a href="#shop">Shop</a>
+                    <a href="#collections">Collections</a>
+                    <a href="#bestsellers">Best Sellers</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                   
+                </div>
+                
+                <div class="nav-icons">
+                    <a href="#" class="nav-icon"><i class="fas fa-search"></i></a>
+                    <a href="#" class="nav-icon cart-icon">
+    <i class="fas fa-shopping-bag"></i>
+    <span class="cart-count">0</span>
+</a>
+                    <a href="#" class="nav-icon"><i class="fas fa-user"></i></a>
+                    <button class="hamburger" id="hamburger">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1 class="gradient-heading">Discover Your Signature <span>Perfume</span></h1>
+                <p class="hero-subtitle">Experience the essence of luxury with our exclusive collection of fine fragrances crafted for the discerning individual.</p>
+                <div class="hero-buttons">
+                    <a href="#shop" class="btn btn-primary">Shop Now</a>
+                    <a href="#collections" class="btn btn-secondary">Explore Collections</a>
+                </div>
+            </div>
+            <div class="perfume-bottle">
+                <img src="image.png" alt="Luxury Perfume Bottle">
+            </div>
+        </section>
+
+        <!-- Featured Categories -->
+        <section class="categories" id="shop">
+            <h2 class="section-title">Featured <span>Categories</span></h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-male"></i>
+                    </div>
+                    <h3>For Men</h3>
+                    <p>Bold, sophisticated fragrances</p>
+                    <a href="men.html" class="category-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-female"></i>
+                    </div>
+                    <h3>For Women</h3>
+                    <p>Elegant, captivating scents</p>
+                    <a href="women.html" class="category-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Oud Collection</h3>
+                    <p>Rare, exotic oud fragrances</p>
+                    <a href="collections.html" class="category-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+             
+            </div>
+        </section>
+
+        <!-- Best Selling Products -->
+        <section class="products" id="bestsellers">
+            <h2 class="section-title">Best <span>Sellers</span></h2>
+            <div class="product-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="image/9.png" alt="Midnight Noir">
+                        <div class="product-overlay">
+                            <button class="add-to-cart" data-product="Midnight Noir">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Midnight Noir</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>4.5</span>
+                        </div>
+                        <p class="product-desc">A mysterious blend of dark spices and amber</p>
+                        <p class="price">$189.00</p>
+                    </div>
+                </div>
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="image/15.png" alt="Golden Essence">
+                        <div class="product-overlay">
+                            <button class="add-to-cart" data-product="Golden Essence">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Golden Essence</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>5.0</span>
+                        </div>
+                        <p class="product-desc">Luxurious blend of vanilla, saffron and oud</p>
+                        <p class="price">$245.00</p>
+                    </div>
+                </div>
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="image/10.png" alt="Royal Oud">
+                        <div class="product-overlay">
+                            <button class="add-to-cart" data-product="Royal Oud">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Royal Oud</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>4.0</span>
+                        </div>
+                        <p class="product-desc">Rare oud wood with rose and sandalwood</p>
+                        <p class="price">$320.00</p>
+                    </div>
+                </div>
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="image/13.png" alt="Velvet Blossom">
+                        <div class="product-overlay">
+                            <button class="add-to-cart" data-product="Velvet Blossom">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Velvet Blossom</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>4.5</span>
+                        </div>
+                        <p class="product-desc">Floral bouquet with jasmine and peony</p>
+                        <p class="price">$175.00</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Special Offer Banner -->
+        <section class="special-offer" id="collections">
+            <div class="offer-content">
+                <h2 class="offer-title">Limited Time <span>Offer</span></h2>
+                <p class="offer-text">Get 20% off on all Oud collections. Use code: <strong>NOIROUD20</strong></p>
+                <p class="offer-expiry">Offer valid until December 31, 2023</p>
+                <a href="#shop" class="btn btn-primary">Shop Now</a>
+            </div>
+        </section>
+
+        <!-- Why Choose Us -->
+        <section class="why-us">
+            <h2 class="section-title">Why <span>Choose Us</span></h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Natural Ingredients</h3>
+                    <p>We use only the finest natural essences sourced from around the world.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3>Expert Craftsmanship</h3>
+                    <p>Each fragrance is meticulously crafted by master perfumers with decades of experience.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3>Global Shipping</h3>
+                    <p>Free worldwide shipping on orders over $150 with discreet, luxury packaging.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Award Winning</h3>
+                    <p>Recognized by the International Fragrance Foundation for excellence in perfumery.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Slider -->
+        <section class="testimonials">
+            <h2 class="section-title">Client <span>Testimonials</span></h2>
+            <div class="testimonial-container">
+                <div class="testimonial-slider">
+                    <div class="testimonial-slide active">
+                        <div class="testimonial-content">
+                            <p>"NoirScent transformed my fragrance collection. The quality is exceptional and the scents are truly unique. Midnight Noir is now my signature scent."</p>
+                            <div class="client-info">
+                                <h4>Alexandra M.</h4>
+                                <p>Lifestyle Influencer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-content">
+                            <p>"As a perfume collector, I've tried countless brands. NoirScent stands out for its authentic oud collection. The Royal Oud is simply breathtaking."</p>
+                            <div class="client-info">
+                                <h4>James L.</h4>
+                                <p>Fragrance Connoisseur</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-content">
+                            <p>"The customer service is as exquisite as the perfumes. They helped me find the perfect gift for my wife, and she absolutely loved it."</p>
+                            <div class="client-info">
+                                <h4>Michael R.</h4>
+                                <p>Satisfied Customer</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-controls">
+                    <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="testimonial-dots">
+                        <span class="dot active" data-slide="0"></span>
+                        <span class="dot" data-slide="1"></span>
+                        <span class="dot" data-slide="2"></span>
+                    </div>
+                    <button class="testimonial-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="newsletter">
+            <div class="newsletter-content">
+                <h2>Subscribe to Our Newsletter</h2>
+                <p>Be the first to know about new collections, exclusive offers, and perfume crafting secrets.</p>
+                <form id="newsletter-form">
+                    <div class="form-group">
+                        <input type="email" placeholder="Enter your email" required="">
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="privacy-policy" required="">
+                        <label for="privacy-policy">I agree to the privacy policy</label>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact" id="contact">
+            <h2 class="section-title">Get In <span>Touch</span></h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Visit Our Boutique</h3>
+                            <p>123 Luxury Avenue, Paris, France</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Call Us</h3>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email Us</h3>
+                            <p>info@noirscent.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Opening Hours</h3>
+                            <p>Mon-Sat: 10am - 8pm</p>
+                            <p>Sunday: 12pm - 6pm</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required="">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required="">
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Your Message" rows="5" required=""></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <a href="#" class="logo">Noir<span>Scent</span></a>
+                    <p>Crafting luxury fragrances that tell your unique story since 1995.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#shop">Shop</a></li>
+                        <li><a href="#collections">Collections</a></li>
+                        <li><a href="#bestsellers">Best Sellers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Return Policy</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for exclusive offers and updates.</p>
+                    <form class="footer-form">
+                        <input type="email" placeholder="Your Email">
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2023 NoirScent. All rights reserved. | Designed with <i class="fas fa-heart"></i> for perfume lovers</p>
+            </div>
+        </footer>
+    </div>
+
+
+
+    <!-- CART DRAWER -->
+<div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+        <h3>Your Cart</h3>
+        <i class="fas fa-times close-cart" id="closeCart"></i>
+    </div>
+
+    <div class="cart-content">
+        <div class="cart-item">
+            <img src="image/p1.jpg">
+            <div>
+                <h4>Midnight Noir</h4>
+                <p>$189</p>
+            </div>
+        </div>
+
+        <div class="cart-item">
+            <img src="image/p2.avif">
+            <div>
+                <h4>Golden Essence</h4>
+                <p>$245</p>
+            </div>
+        </div>
+    </div>
+
+   <div class="cart-footer">
+    <p>Total: <strong>$444</strong></p>
+
+    <button class="view-cart-btn" onclick="window.location.href='cart.html'">
+        View Cart
+    </button>
+
+    <button class="checkout-btn" onclick="window.location.href='checkout.html'">
+        Checkout
+    </button>
+</div>
+</div>
+
+
+
+<script>
+const cartIcon = document.querySelector(".cart-icon");
+const cartDrawer = document.getElementById("cartDrawer");
+const closeCart = document.getElementById("closeCart");
+
+cartIcon.addEventListener("click", (e) => {
+    e.preventDefault(); // 👈 IMPORTANT para di mag jump sa home
+    cartDrawer.classList.add("active");
+});
+
+closeCart.addEventListener("click", () => {
+    cartDrawer.classList.remove("active");
+});
+</script>
+
+
+
+    <script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+// fix quantity
+cart.forEach(item => {
+    if (!item.quantity) item.quantity = 1;
+});
+
+const cartCount = document.querySelector(".cart-count");
+const cartContent = document.querySelector(".cart-content");
+
+function saveCart() {
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function updateCartCount() {
+    let totalQty = 0;
+
+    cart.forEach(item => {
+        totalQty += item.quantity;
+    });
+
+    if (cartCount) {
+        cartCount.innerText = totalQty;
+    }
+}
+
+function updateCartUI() {
+    if (!cartContent) return;
+
+    let total = 0;
+    cartContent.innerHTML = "";
+
+    cart.forEach(item => {
+        let priceNumber = parseFloat(item.price.replace("$", ""));
+        let subtotal = priceNumber * item.quantity;
+
+        total += subtotal;
+
+        cartContent.innerHTML += `
+        <div class="cart-item">
+            <img src="${item.img}">
+            <div>
+                <h4>${item.name}</h4>
+                <p>${item.price}</p>
+            </div>
+
+            <div class="qty-controls">
+                <button onclick="decreaseQty('${item.name}')">−</button>
+                <span>${item.quantity}</span>
+                <button onclick="increaseQty('${item.name}')">+</button>
+            </div>
+
+            <i class="fas fa-trash" onclick="removeItem('${item.name}')"></i>
+        </div>
+        `;
+    });
+
+    updateCartCount();
+
+    const totalEl = document.querySelector(".cart-footer strong");
+    if (totalEl) {
+        totalEl.innerText = "$" + total.toFixed(2);
+    }
+}
+
+// ADD TO CART
+document.querySelectorAll(".add-to-cart").forEach(btn => {
+    btn.addEventListener("click", () => {
+
+        const productCard = btn.closest(".product-card");
+
+        const product = {
+            name: btn.dataset.product,
+            img: productCard.querySelector("img").src,
+            price: productCard.querySelector(".price").innerText,
+            quantity: 1
+        };
+
+        const existing = cart.find(i => i.name === product.name);
+
+        if (existing) {
+            existing.quantity++;
+        } else {
+            cart.push(product);
+        }
+
+        saveCart();
+        updateCartUI();
+    });
+});
+
+function increaseQty(name) {
+    const item = cart.find(p => p.name === name);
+    if (item) item.quantity++;
+
+    saveCart();
+    updateCartUI();
+}
+
+function decreaseQty(name) {
+    const item = cart.find(p => p.name === name);
+
+    if (item) {
+        item.quantity--;
+
+        if (item.quantity <= 0) {
+            cart = cart.filter(p => p.name !== name);
+        }
+    }
+
+    saveCart();
+    updateCartUI();
+}
+
+function removeItem(name) {
+    cart = cart.filter(item => item.name !== name);
+
+    saveCart();
+    updateCartUI();
+}
+
+// INIT
+updateCartUI();
+
+window.addEventListener("pageshow", () => {
+    cart = JSON.parse(localStorage.getItem("cart")) || [];
+    updateCartUI();
+});
+
+
+
+</script>
+
+
+<script>
+function getCart() {
+    return JSON.parse(localStorage.getItem("cart")) || [];
+}
+
+function updateCartCount() {
+    const cart = getCart();
+
+    let totalQty = 0;
+
+    cart.forEach(item => {
+        totalQty += item.quantity ? item.quantity : 1;
+    });
+
+    const cartCount = document.querySelector(".cart-count");
+
+    if (cartCount) {
+        cartCount.innerText = totalQty;
+    }
+}
+
+// run on load
+updateCartCount();
+
+// fix kapag nag BACK / FORWARD
+window.addEventListener("pageshow", updateCartCount);
+</script>
+
+
+
+</body></html>
