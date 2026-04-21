@@ -269,13 +269,13 @@ a {
 
 /* Hero Section */
 .hero {
-  padding: 180px 5% 100px;
+  padding: 70px 5% 0px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   max-width: 1400px;
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: auto;
 }
 
 .hero-content {
@@ -336,7 +336,7 @@ a {
 
 /* Sections Common */
 section {
-  padding: 100px 5%;
+  padding: 70px 5%;
   position: relative;
 }
 
@@ -1143,11 +1143,10 @@ section {
 /* ===== PRODUCT GRID ===== */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
     gap: 20px;
     padding: 20px;
 }
-
 /* ===== PRODUCT CARD ===== */
 .product-card {
     background: rgba(0,0,0,0.75);
@@ -1278,4 +1277,51 @@ section {
     max-width: 100%;
   }
 
+}
+
+@media (max-width: 1200px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+}
+
+/* MOBILE */
+@media (max-width: 992px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.95);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
 }
