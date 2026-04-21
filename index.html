@@ -340,17 +340,17 @@
                 </div>
                 <div class="contact-form">
                     <form id="contactForm">
-                        <div class="form-group">
-                            <input type="text" placeholder="Your Name" required="">
-                        </div>
-                        <div class="form-group">
-                            <input type="email" placeholder="Your Email" required="">
-                        </div>
-                        <div class="form-group">
-                            <textarea placeholder="Your Message" rows="5" required=""></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                    </form>
+    <div class="form-group">
+        <input type="text" id="name" placeholder="Your Name" required>
+    </div>
+    <div class="form-group">
+        <input type="email" id="email" placeholder="Your Email" required>
+    </div>
+    <div class="form-group">
+        <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send Message</button>
+</form>
                 </div>
             </div>
         </section>
@@ -623,6 +623,32 @@ updateCartCount();
 window.addEventListener("pageshow", updateCartCount);
 </script>
 
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+(function(){
+    emailjs.init("9AigYJ7AwiHQCgUM4"); // palitan mo
+})();
+</script>
+
+
+<script>
+document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    emailjs.send("service_xqgkiwa", "template_rl8zeap", {
+        from_name: document.getElementById("name").value,
+        from_email: document.getElementById("email").value,
+        message: document.getElementById("message").value
+    })
+    .then(function(response) {
+        alert("✅ Message sent successfully!");
+    }, function(error) {
+        alert("❌ Failed to send message.");
+    });
+});
+</script>
 
 
 </body></html>
