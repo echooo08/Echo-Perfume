@@ -610,7 +610,101 @@ td{
   cursor:pointer;
 }
 
+@media (max-width: 900px) {
 
+  /* SIDEBAR → TOP NAV STYLE */
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .menu a {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  /* MAIN AREA */
+  .main {
+    margin-left: 0;
+    padding: 15px;
+  }
+
+  /* TOPBAR STACK */
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .topbar-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* METRICS */
+  .metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* CHARTS STACK */
+  .charts-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* TABLE SCROLL */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  /* PRODUCT GRID */
+  .product-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* ORDERS STATS */
+  .order-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .order-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .menu a {
+    font-size: 11px;
+  }
+
+  .logo-text {
+    font-size: 13px;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+}
 </style>
 </head>
 <body>
@@ -673,7 +767,7 @@ td{
     <div class="metrics">
       <div class="mcard">
         <div class="mcard-label">Total revenue</div>
-        <div class="mcard-val">$284K</div>
+        <div class="mcard-val">₱284K</div>
         <div class="mcard-sub up">&#8679; +12.4% this month</div>
       </div>
       <div class="mcard">
@@ -688,7 +782,7 @@ td{
       </div>
       <div class="mcard">
         <div class="mcard-label">Avg. order value</div>
-        <div class="mcard-val">$154</div>
+        <div class="mcard-val">₱154</div>
         <div class="mcard-sub dn">&#8681; -2.3% this month</div>
       </div>
     </div>
@@ -743,7 +837,7 @@ td{
             <div class="prod-cat">Floral &middot; 342 units</div>
             <div class="prod-bar-wrap"><div class="prod-bar" style="width:88%;background:#e879f9"></div></div>
           </div>
-          <div class="prod-rev">$42,530</div>
+          <div class="prod-rev">₱42,530</div>
         </div>
         <div class="prod-row">
           <div class="prod-emoji" style="background:#fefce8">&#10024;</div>
@@ -870,7 +964,7 @@ td{
           <td>#ORD-2847</td>
           <td>Emma Thompson</td>
           <td>2 items</td>
-          <td>$150</td>
+          <td>₱150</td>
           <td>2026-04-18</td>
           <td><span class="status status-delivered">Delivered</span></td>
         </tr>
@@ -879,7 +973,7 @@ td{
           <td>#ORD-2846</td>
           <td>James Wilson</td>
           <td>1 item</td>
-          <td>$75</td>
+          <td>₱75</td>
           <td>2026-04-18</td>
           <td><span class="status status-shipped">Shipped</span></td>
         </tr>
@@ -888,7 +982,7 @@ td{
           <td>#ORD-2845</td>
           <td>Sophie Martinez</td>
           <td>3 items</td>
-          <td>$225</td>
+          <td>₱225</td>
           <td>2026-04-17</td>
           <td><span class="status status-processing">Processing</span></td>
         </tr>
@@ -897,7 +991,7 @@ td{
           <td>#ORD-2844</td>
           <td>Michael Chen</td>
           <td>1 item</td>
-          <td>$85</td>
+          <td>₱85</td>
           <td>2026-04-17</td>
           <td><span class="status status-delivered">Delivered</span></td>
         </tr>
@@ -968,7 +1062,7 @@ function render(){
         </td>
 
         <td>${p.category}</td>
-        <td>${p.price}</td>
+       <td>₱${p.price}</td>
         <td>${p.stock}</td>
 
         <td>
@@ -1099,7 +1193,7 @@ new Chart(document.getElementById('salesChart'),{
     plugins:{legend:{display:false}},
     scales:{
       x:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:10},color:'#888'}},
-      y:{position:'left',grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:10},color:'#888',callback:v=>'$'+(v/1000)+'k'}},
+      y:{position:'left',grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:10},color:'#888',callback:v=>'₱'+(v/1000)+'k'}},
       y1:{position:'right',grid:{display:false},ticks:{font:{size:10},color:'#888'}}
     }
   }

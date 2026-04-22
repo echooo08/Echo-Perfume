@@ -198,6 +198,38 @@
         </div>
 
 
+                        <div class="product-card">
+            <div class="product-img">
+                <img src="image/Noir Elegance.jpg">
+                <div class="product-overlay">
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3>Noir Elegance</h3>
+                <p class="product-desc">Luxury scent with amber & musk</p>
+                <p class="price">₱1,499</p>
+            </div>
+        </div>
+
+
+                        <div class="product-card">
+            <div class="product-img">
+                <img src="image/Crimson Spark.jpg">
+                <div class="product-overlay">
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3>Crimson Spark</h3>
+                <p class="product-desc">Luxury scent with amber & musk</p>
+                <p class="price">₱1,999</p>
+            </div>
+        </div>
+
+
+
+
     </div>
 </section>
 
@@ -248,7 +280,7 @@ function renderCart() {
 
     cart.forEach(item => {
 
-        let price = parseFloat(item.price.replace("$", ""));
+        let price = parseFloat(item.price.replace("₱", "").replace(",", ""));
         total += price * item.quantity;
 
         cartContent.innerHTML += `
@@ -271,7 +303,7 @@ function renderCart() {
         `;
     });
 
-    document.querySelector(".cart-footer strong").innerText = "$" + total.toFixed(2);
+   document.querySelector(".cart-footer strong").innerText = "₱" + total.toFixed(2);
 
     updateCartCount();
 }

@@ -153,6 +153,23 @@
     color: #000;
 }
 
+@media (max-width: 480px) {
+
+    .checkout-title {
+        font-size: 20px;
+    }
+
+    .checkout-form h3,
+    .order-summary h3 {
+        font-size: 16px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 10px;
+    }
+}
+
     </style>
 </head>
 
@@ -212,7 +229,7 @@
 
     <div class="summary-item">
         <span>Shipping</span>
-        <span id="shipping">$10</span>
+        <span id="shipping">₱10</span>
     </div>
 
     <div class="summary-item summary-total">
@@ -235,12 +252,12 @@ function getPrice(item) {
 
     if (typeof item.price === "number") return item.price;
 
-    return parseFloat(
-        item.price
-            .toString()
-            .replace("$", "")
-            .replace(",", "")
-    ) || 0;
+   return parseFloat(
+    item.price
+        .toString()
+        .replace("₱", "")
+        .replace(",", "")
+) || 0;
 }
 
 // FIXED SHIPPING (same as cart page)
@@ -257,8 +274,8 @@ function renderCart() {
 
     if (!cart.length) {
         container.innerHTML = "<p style='color:#aaa'>Your cart is empty</p>";
-        document.getElementById("shipping").innerText = "$0";
-        document.getElementById("total-price").innerText = "$0";
+  document.getElementById("shipping").innerText = "$0";
+document.getElementById("total-price").innerText = "$0";
         return;
     }
 
@@ -276,7 +293,7 @@ function renderCart() {
                     <div>${item.name}</div>
                     <div class="qty">Qty: ${qty}</div>
                 </div>
-                <div>$${itemTotal.toFixed(2)}</div>
+                <div>₱${itemTotal.toFixed(2)}</div>
             </div>
         `;
     });
@@ -288,8 +305,8 @@ function renderCart() {
     let grandTotal = subtotal + shipping;
 
     // DISPLAY
-    document.getElementById("shipping").innerText = "$" + shipping;
-    document.getElementById("total-price").innerText = "$" + grandTotal.toFixed(2);
+   document.getElementById("shipping").innerText = "₱" + shipping;
+document.getElementById("total-price").innerText = "₱" + grandTotal.toFixed(2);
 }
 
 // INIT

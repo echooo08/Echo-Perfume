@@ -82,37 +82,37 @@
         <!-- Product 1 -->
         <div class="product-card">
             <div class="product-img">
-                <img src="image/women1.png">
+                <img src="image/women1.jpg">
                 <div class="product-overlay">
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-info">
-                <h3>Rose Elegance</h3>
+                <h3>Forbidden Noir</h3>
                 <p class="product-desc">Soft floral blend with rose & vanilla</p>
-                <p class="price">$180</p>
+                <p class="price">₱1,499</p>
             </div>
         </div>
 
         <!-- Product 2 -->
         <div class="product-card">
             <div class="product-img">
-                <img src="image/women2.png">
+                <img src="image/women2.jpg">
                 <div class="product-overlay">
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-info">
-                <h3>Velvet Bloom</h3>
+                <h3>Sinful Bloom</h3>
                 <p class="product-desc">Fruity floral scent with a sweet finish</p>
-                <p class="price">$165</p>
+                <p class="price">₱1,699</p>
             </div>
         </div>
 
         <!-- Product 3 -->
         <div class="product-card">
             <div class="product-img">
-                <img src="image/women3.png">
+                <img src="image/women3.jpg">
                 <div class="product-overlay">
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
@@ -120,22 +120,112 @@
             <div class="product-info">
                 <h3>Crystal Muse</h3>
                 <p class="product-desc">Fresh jasmine with citrus notes</p>
-                <p class="price">$210</p>
+                <p class="price">₱1,399</p>
             </div>
         </div>
 
         <!-- Product 4 -->
         <div class="product-card">
             <div class="product-img">
-                <img src="image/women4.png">
+                <img src="image/women4.jpg">
                 <div class="product-overlay">
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-info">
-                <h3>Golden Petal</h3>
+                <h3>Blush Royale</h3>
                 <p class="product-desc">Warm amber with floral sweetness</p>
-                <p class="price">$195</p>
+                <p class="price">₱1,299</p>
+            </div>
+        </div>
+
+
+        <div class="product-card">
+            <div class="product-img">
+                <img src="image/women5.jpg">
+                <div class="product-overlay">
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3>Rose Charm</h3>
+                <p class="product-desc">Fresh jasmine with citrus notes</p>
+                <p class="price">₱1,399</p>
+            </div>
+        </div>
+
+
+                <div class="product-card">
+            <div class="product-img">
+                <img src="image/women6.jpg">
+                <div class="product-overlay">
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3>Veloura Luxe</h3>
+                <p class="product-desc">Fresh jasmine with citrus notes</p>
+                <p class="price">₱1,199</p>
+            </div>
+        </div>
+
+
+                <div class="product-card">
+            <div class="product-img">
+                <img src="image/women7.jpg">
+                <div class="product-overlay">
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3>Flower Charm</h3>
+                <p class="product-desc">Fresh jasmine with citrus notes</p>
+                <p class="price">₱1,099</p>
+            </div>
+        </div>
+
+
+                <div class="product-card">
+            <div class="product-img">
+                <img src="image/women8.jpg">
+                <div class="product-overlay">
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3>Midnight Sakura Elixir</h3>
+                <p class="product-desc">Fresh jasmine with citrus notes</p>
+                <p class="price">₱1,499</p>
+            </div>
+        </div>
+
+
+                <div class="product-card">
+            <div class="product-img">
+                <img src="image/women9.jpg">
+                <div class="product-overlay">
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3>Purple Desire</h3>
+                <p class="product-desc">Fresh jasmine with citrus notes</p>
+                <p class="price">₱1,599</p>
+            </div>
+        </div>
+
+
+                <div class="product-card">
+            <div class="product-img">
+                <img src="image/women10.jpg">
+                <div class="product-overlay">
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3>Midnight Sakura</h3>
+                <p class="product-desc">Fresh jasmine with citrus notes</p>
+                <p class="price">₱1,299</p>
             </div>
         </div>
 
@@ -189,7 +279,7 @@ function renderCart() {
 
     cart.forEach(item => {
 
-        let price = parseFloat(item.price.replace("$", ""));
+      let price = parseFloat(item.price.replace("₱", "").replace(",", ""));
         total += price * item.quantity;
 
         cartContent.innerHTML += `
@@ -212,7 +302,7 @@ function renderCart() {
         `;
     });
 
-    document.querySelector(".cart-footer strong").innerText = "$" + total.toFixed(2);
+    document.querySelector(".cart-footer strong").innerText = "₱" + total.toFixed(2);
 
     updateCartCount();
 }

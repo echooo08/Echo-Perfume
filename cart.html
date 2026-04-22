@@ -123,6 +123,53 @@
     font-family: 'Cinzel', serif;
     margin: 0;
 }
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+
+    .cart-container {
+        padding: 100px 5%;
+    }
+
+    .cart-title {
+        font-size: 28px;
+        text-align: center;
+    }
+
+    .cart-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cart-header-top {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .item-info {
+        margin-left: 0;
+    }
+
+    .qty-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .cart-summary {
+        margin-top: 20px;
+    }
+
+    .checkout-btn {
+        font-size: 16px;
+    }
+}
     </style>
 </head>
 
@@ -156,7 +203,7 @@
 
             <div class="summary-item">
                 <span>Shipping</span>
-                <span>$10</span>
+                <span>₱10</span>
             </div>
 
             <div class="summary-item summary-total">
@@ -200,7 +247,7 @@ function displayCart() {
 
 cart.forEach((item, index) => {
 
-    let priceNumber = parseFloat(item.price.replace("$", ""));
+    let priceNumber = parseFloat(item.price.replace("₱", "").replace(",", ""));
 
     let subtotal = priceNumber * item.quantity;
 
@@ -223,7 +270,7 @@ cart.forEach((item, index) => {
             <button onclick="increaseQty(${index})">+</button>
         </div>
 
-        <div class="item-price">$${subtotal.toFixed(2)}</div>
+       <div class="item-price">₱${subtotal.toFixed(2)}</div>
 
         <i class="fas fa-trash remove-btn" onclick="removeItem(${index})"></i>
 
@@ -231,8 +278,8 @@ cart.forEach((item, index) => {
     `;
 });
 
-    subtotalEl.innerText = "$" + total.toFixed(2);
-    totalEl.innerText = "$" + (total + 10).toFixed(2); // shipping
+   subtotalEl.innerText = "₱" + total.toFixed(2);
+totalEl.innerText = "₱" + (total + 10).toFixed(2); // shipping
 }
 // 🗑 REMOVE ITEM
 function removeItem(index) {
