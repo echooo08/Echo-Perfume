@@ -170,6 +170,14 @@
         font-size: 16px;
     }
 }
+
+.item-check {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    accent-color: #d4af37;
+    cursor: pointer;
+}
     </style>
 </head>
 
@@ -198,20 +206,20 @@
 
             <div class="summary-item">
                 <span>Subtotal</span>
-                <span class="subtotal">$0</span>
+                <span class="subtotal">₱0</span>
             </div>
 
             <div class="summary-item">
                 <span>Shipping</span>
-                <span>₱10</span>
+                <span class="shipping">₱0</span>
             </div>
 
             <div class="summary-item summary-total">
                 <span>Total</span>
-                <span class="total">$0</span>
+                <span class="total">₱0</span>
             </div>
 
-            <button class="checkout-btn" onclick="window.location.href='checkout.html'">
+            <button class="checkout-btn" onclick="checkoutSelected()">
                 Proceed to Checkout
             </button>
         </div>
@@ -223,13 +231,25 @@
 const cartContent = document.querySelector(".cart-items");
 const subtotalEl = document.querySelector(".subtotal");
 const totalEl = document.querySelector(".total");
+const shippingEl = document.querySelector(".shipping");
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// fix sa mga walang quantity
-cart.forEach(item => {
-    if (!item.quantity) {
-        item.quantity = 1;
+cart = cart.map(item => ({
+    ...item,
+    quantity: item.quantity || 1,
+    checked: item.checked ?? true
+}));
+
+document.addEventListener("change", function(e) {
+    if (e.target.classList.contains("item-check")) {
+        let index = e.target.dataset.index;
+
+        cart[index].checked = e.target.checked;
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        displayCart(); // 🔥 IMPORTANT: refresh totals + UI
     }
 });
 
@@ -237,50 +257,70 @@ function displayCart() {
     cartContent.innerHTML = "";
 
     let total = 0;
+    let hasItem = false;
 
     if (cart.length === 0) {
         cartContent.innerHTML = "<p>Your cart is empty</p>";
-        subtotalEl.innerText = "$0";
-        totalEl.innerText = "$0";
+        subtotalEl.innerText = "₱0";
+        totalEl.innerText = "₱0";
         return;
     }
 
-cart.forEach((item, index) => {
+    cart.forEach((item, index) => {
 
-    let priceNumber = parseFloat(item.price.replace("₱", "").replace(",", ""));
 
-    let subtotal = priceNumber * item.quantity;
+       let priceNumber = Number(item.price.replace(/[^0-9.]/g, ""));
+        let subtotal = priceNumber * item.quantity;
 
-    total += subtotal;
+        // ✅ CHECKED ITEMS ONLY ang total
+        if (item.checked) {
+            total += subtotal;
+            hasItem = true;
+        }
 
-    cartContent.innerHTML += `
-    <div class="cart-item">
+        cartContent.innerHTML += `
+        <div class="cart-item">
+            <input type="checkbox" class="item-check" data-index="${index}" 
+            ${item.checked ? "checked" : ""}>
 
-        <img src="${item.img}">
+            <img src="${item.img}">
 
-        <div class="item-info">
-            <h4>${item.name}</h4>
-            <p>${item.price}</p>
+            <div class="item-info">
+                <h4>${item.name}</h4>
+                <p>${item.price}</p>
+            </div>
+
+            <div class="qty-controls">
+                <button onclick="decreaseQty(${index})">−</button>
+                <span>${item.quantity}</span>
+                <button onclick="increaseQty(${index})">+</button>
+            </div>
+
+            <div class="item-price">₱${subtotal.toFixed(2)}</div>
+
+            <i class="fas fa-trash" onclick="removeItem(${index})"></i>
         </div>
+        `;
+    });
 
-        <!-- QUANTITY CONTROLS -->
-        <div class="qty-controls">
-            <button onclick="decreaseQty(${index})">−</button>
-            <span>${item.quantity}</span>
-            <button onclick="increaseQty(${index})">+</button>
-        </div>
+    let selectedCount = cart.filter(item => item.checked).length;
+let shipping = selectedCount * 99;
 
-       <div class="item-price">₱${subtotal.toFixed(2)}</div>
-
-        <i class="fas fa-trash remove-btn" onclick="removeItem(${index})"></i>
-
-    </div>
-    `;
-});
-
-   subtotalEl.innerText = "₱" + total.toFixed(2);
-totalEl.innerText = "₱" + (total + 10).toFixed(2); // shipping
+// kung walang selected, walang shipping
+if (selectedCount === 0) {
+    shipping = 0;
 }
+
+subtotalEl.innerText = "₱" + total.toFixed(2);
+totalEl.innerText = "₱" + (total + shipping).toFixed(2);
+
+if (shippingEl) {
+    shippingEl.innerText = "₱" + shipping.toFixed(2);
+}
+
+
+}
+
 // 🗑 REMOVE ITEM
 function removeItem(index) {
     cart.splice(index, 1);
@@ -294,6 +334,7 @@ function increaseQty(index) {
     cart[index].quantity += 1;
     localStorage.setItem("cart", JSON.stringify(cart));
     displayCart();
+    syncCartToDrawer();
 }
 
 function decreaseQty(index) {
@@ -308,6 +349,35 @@ function decreaseQty(index) {
 }
 
 
+function getSelectedItems() {
+    return cart.filter(item => item.checked);
+}
+
+function checkoutSelected() {
+    let selectedItems = cart.filter(item => item.checked);
+
+    if (selectedItems.length === 0) {
+        alert("Please select items to checkout");
+        return;
+    }
+
+    localStorage.setItem("checkoutCart", JSON.stringify(selectedItems));
+
+    window.location.href = "checkout.html";
+}
+
+function syncCartToDrawer() {
+    // triggers update kapag bumalik ka sa main page or drawer
+    const event = new Event("storage");
+    window.dispatchEvent(event);
+}
+
+
+window.addEventListener("storage", () => {
+    cart = JSON.parse(localStorage.getItem("cart")) || [];
+    updateCartUI?.();
+    displayCart?.();
+});
 </script>
 
 </body></html>

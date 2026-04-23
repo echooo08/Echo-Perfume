@@ -68,6 +68,41 @@
             </div>
         </section>
 
+        <!-- About Section -->
+<section class="about" id="about">
+    <h2 class="section-title">About <span>Echo Perfume</span></h2>
+
+    <div class="about-container">
+        <!-- Left Side (Image) -->
+        <div class="about-image">
+            <img src="image/men.jpg" alt="About Echo Perfume">
+        </div>
+
+        <!-- Right Side (Text) -->
+        <div class="about-content">
+            <h3>Crafting Scents That Tell Your Story</h3>
+
+            <p>
+                At <strong>Echo Perfume</strong>, we believe that fragrance is more than just a scent — it is an identity. 
+                Every bottle we create is designed to reflect personality, confidence, and timeless elegance.
+            </p>
+
+            <p>
+                Our perfumes are crafted using premium ingredients sourced globally, blended with precision to deliver 
+                long-lasting and unforgettable aromas. From bold masculine notes to soft floral blends, we offer a 
+                scent for every moment.
+            </p>
+
+            <p>
+                Whether you're searching for your signature fragrance or the perfect gift, 
+                <strong>Echo Perfume</strong> is here to elevate your everyday experience into something luxurious.
+            </p>
+
+            <a href="#shop" class="btn btn-primary">Explore Our Collection</a>
+        </div>
+    </div>
+</section>
+
         <!-- Featured Categories -->
         <section class="categories" id="shop">
             <h2 class="section-title">Featured <span>Categories</span></h2>
@@ -109,7 +144,7 @@
                     <div class="product-img">
                         <img src="image/men.jpg" alt="Midnight Noir">
                         <div class="product-overlay">
-                            <button class="add-to-cart" data-product="Midnight Noir">Add to Cart</button>
+                            <button class="add-to-cart" data-product="Black Sovereign">Add to Cart</button>
                         </div>
                     </div>
                     <div class="product-info">
@@ -131,7 +166,7 @@
                     <div class="product-img">
                         <img src="image/men5.jpg" alt="Golden Essence">
                         <div class="product-overlay">
-                            <button class="add-to-cart" data-product="Golden Essence">Add to Cart</button>
+                            <button class="add-to-cart" data-product="Midnight Drift">Add to Cart</button>
                         </div>
                     </div>
                     <div class="product-info">
@@ -153,7 +188,7 @@
                     <div class="product-img">
                         <img src="image/women8.jpg" alt="Royal Oud">
                         <div class="product-overlay">
-                            <button class="add-to-cart" data-product="Royal Oud">Add to Cart</button>
+                            <button class="add-to-cart" data-product="Midnight Sakura Elixir">Add to Cart</button>
                         </div>
                     </div>
                     <div class="product-info">
@@ -175,7 +210,7 @@
                     <div class="product-img">
                         <img src="image/women10.jpg" alt="Velvet Blossom">
                         <div class="product-overlay">
-                            <button class="add-to-cart" data-product="Velvet Blossom">Add to Cart</button>
+                            <button class="add-to-cart" data-product="Midnight Sakura">Add to Cart</button>
                         </div>
                     </div>
                     <div class="product-info">
@@ -198,7 +233,7 @@
                     <div class="product-img">
                         <img src="image/Crimson Spark.jpg" alt="Velvet Blossom">
                         <div class="product-overlay">
-                            <button class="add-to-cart" data-product="Velvet Blossom">Add to Cart</button>
+                           <button class="add-to-cart" data-product="Crimson Spark">Add to Cart</button>
                         </div>
                     </div>
                     <div class="product-info">
@@ -458,9 +493,7 @@
         View Cart
     </button>
 
-    <button class="checkout-btn" onclick="window.location.href='checkout.html'">
-        Checkout
-    </button>
+   <button class="checkout-btn" onclick="checkoutSelected()">Checkout</button>
 </div>
 </div>
 
@@ -517,36 +550,35 @@ function updateCartUI() {
     cartContent.innerHTML = "";
 
     cart.forEach(item => {
-       let priceNumber = parseFloat(item.price.replace("₱", "").replace(",", ""));
+        let priceNumber = parseFloat(item.price.replace("₱", "").replace(",", ""));
         let subtotal = priceNumber * item.quantity;
 
         total += subtotal;
 
         cartContent.innerHTML += `
-        <div class="cart-item">
-            <img src="${item.img}">
-            <div>
-                <h4>${item.name}</h4>
-                <p>${item.price}</p>
-            </div>
+<div class="cart-item">
+   <input type="checkbox" class="cart-check" data-name="${item.name}" ${item.checked ? "checked" : ""}>
 
-            <div class="qty-controls">
-                <button onclick="decreaseQty('${item.name}')">−</button>
-                <span>${item.quantity}</span>
-                <button onclick="increaseQty('${item.name}')">+</button>
-            </div>
+    <img src="${item.img}">
+    <div>
+        <h4>${item.name}</h4>
+        <p>${item.price}</p>
+    </div>
 
-            <i class="fas fa-trash" onclick="removeItem('${item.name}')"></i>
-        </div>
-        `;
+    <div class="qty-controls">
+        <button onclick="decreaseQty('${item.name}')">−</button>
+        <span>${item.quantity}</span>
+        <button onclick="increaseQty('${item.name}')">+</button>
+    </div>
+
+    <i class="fas fa-trash" onclick="removeItem('${item.name}')"></i>
+</div>
+`;
     });
 
     updateCartCount();
 
-    const totalEl = document.querySelector(".cart-footer strong");
-    if (totalEl) {
-       totalEl.innerText = "₱" + total.toFixed(2);
-    }
+    updateTotalBasedOnChecked(); // 🔥 ADD THIS
 }
 
 // ADD TO CART
@@ -555,17 +587,23 @@ document.querySelectorAll(".add-to-cart").forEach(btn => {
 
         const productCard = btn.closest(".product-card");
 
-        const product = {
-            name: btn.dataset.product,
-            img: productCard.querySelector("img").src,
-            price: productCard.querySelector(".price").innerText,
-            quantity: 1
-        };
+      const product = {
+    name: btn.dataset.product,
+    img: productCard.querySelector("img").src,
+    price: productCard.querySelector(".price").innerText,
+    quantity: 1,
+    checked: false
+};
 
         const existing = cart.find(i => i.name === product.name);
 
         if (existing) {
-            existing.quantity++;
+           existing.quantity++;
+
+// keep checked state
+if (existing.checked === undefined) {
+    existing.checked = false;
+}
         } else {
             cart.push(product);
         }
@@ -615,8 +653,100 @@ window.addEventListener("pageshow", () => {
 
 
 
-</script>
+function getSelectedCartItems() {
+    const checkboxes = document.querySelectorAll(".cart-check");
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+    let selected = [];
+
+    checkboxes.forEach(cb => {
+        if (cb.checked) {
+            const item = cart.find(p => p.name === cb.dataset.name);
+            if (item) selected.push(item);
+        }
+    });
+
+    return selected;
+}
+
+
+function checkoutSelected() {
+    const selectedItems = getSelectedCartItems();
+
+    if (selectedItems.length === 0) {
+        alert("Walang naka-check na item!");
+        return;
+    }
+
+    localStorage.setItem("checkoutCart", JSON.stringify(selectedItems));
+
+    window.location.href = "checkout.html";
+}
+
+
+function updateTotalBasedOnChecked() {
+    const checkboxes = document.querySelectorAll(".cart-check");
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    let total = 0;
+
+    checkboxes.forEach(cb => {
+        if (cb.checked) {
+            const item = cart.find(p => p.name === cb.dataset.name);
+
+            if (item) {
+                let priceNumber = parseFloat(item.price.replace("₱", "").replace(",", ""));
+                total += priceNumber * item.quantity;
+            }
+        }
+    });
+
+    const totalEl = document.querySelector(".cart-footer strong");
+
+    if (totalEl) {
+        totalEl.innerText = "₱" + total.toFixed(2);
+    }
+}
+
+
+document.addEventListener("change", function(e) {
+    if (e.target.classList.contains("cart-check")) {
+        updateTotalBasedOnChecked();
+    }
+});
+
+document.addEventListener("change", function(e) {
+    if (e.target.classList.contains("cart-check")) {
+
+        const name = e.target.dataset.name;
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        const item = cart.find(p => p.name === name);
+
+        if (item) {
+            item.checked = e.target.checked;
+            localStorage.setItem("cart", JSON.stringify(cart));
+        }
+
+        updateCartUI(); // refresh drawer
+        syncCartToDrawer();
+    }
+});
+
+
+function syncCartToDrawer() {
+    // triggers update kapag bumalik ka sa main page or drawer
+    const event = new Event("storage");
+    window.dispatchEvent(event);
+}
+
+window.addEventListener("storage", () => {
+    cart = JSON.parse(localStorage.getItem("cart")) || [];
+    updateCartUI?.();
+    displayCart?.();
+});
+
+</script>
 
 <script>
 function getCart() {
@@ -688,7 +818,41 @@ document.querySelectorAll(".nav-links a").forEach(link => {
         navLinks.classList.remove("active");
     });
 });
+
 </script>
 
+<script>
+const sections = document.querySelectorAll("section");
+const navLinksAll = document.querySelectorAll(".nav-links a");
 
+// ACTIVE kapag scroll
+window.addEventListener("scroll", () => {
+    let current = "";
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        const sectionHeight = section.clientHeight;
+
+        if (scrollY >= sectionTop) {
+            current = section.getAttribute("id");
+        }
+    });
+
+    navLinksAll.forEach(link => {
+        link.classList.remove("active");
+
+        if (link.getAttribute("href") === "#" + current) {
+            link.classList.add("active");
+        }
+    });
+});
+
+// ACTIVE kapag click
+navLinksAll.forEach(link => {
+    link.addEventListener("click", function() {
+        navLinksAll.forEach(l => l.classList.remove("active"));
+        this.classList.add("active");
+    });
+});
+</script>
 </body></html>
