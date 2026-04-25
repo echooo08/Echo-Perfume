@@ -299,50 +299,36 @@
         </section>
 
         <!-- Testimonials Slider -->
-        <section class="testimonials">
-            <h2 class="section-title">Client <span>Testimonials</span></h2>
-            <div class="testimonial-container">
-                <div class="testimonial-slider">
-                    <div class="testimonial-slide active">
-                        <div class="testimonial-content">
-                            <p>"NoirScent transformed my fragrance collection. The quality is exceptional and the scents are truly unique. Midnight Noir is now my signature scent."</p>
-                            <div class="client-info">
-                                <h4>Alexandra M.</h4>
-                                <p>Lifestyle Influencer</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-slide">
-                        <div class="testimonial-content">
-                            <p>"As a perfume collector, I've tried countless brands. NoirScent stands out for its authentic oud collection. The Royal Oud is simply breathtaking."</p>
-                            <div class="client-info">
-                                <h4>James L.</h4>
-                                <p>Fragrance Connoisseur</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-slide">
-                        <div class="testimonial-content">
-                            <p>"The customer service is as exquisite as the perfumes. They helped me find the perfect gift for my wife, and she absolutely loved it."</p>
-                            <div class="client-info">
-                                <h4>Michael R.</h4>
-                                <p>Satisfied Customer</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-controls">
-                    <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
-                    <div class="testimonial-dots">
-                        <span class="dot active" data-slide="0"></span>
-                        <span class="dot" data-slide="1"></span>
-                        <span class="dot" data-slide="2"></span>
-                    </div>
-                    <button class="testimonial-next"><i class="fas fa-chevron-right"></i></button>
-                </div>
-            </div>
-        </section>
+<!-- Reviews Section -->
+<section class="testimonials" id="reviews">
+    <h2 class="section-title">Customer <span>Reviews</span></h2>
 
+   <div class="testimonial-slider" id="testimonialSlider">
+    <!-- JS will inject reviews here -->
+</div>
+
+        <!-- CONTROLS -->
+        <div class="testimonial-controls">
+            <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
+
+            <div class="testimonial-dots">
+                <span class="dot active" data-slide="0"></span>
+                <span class="dot" data-slide="1"></span>
+                <span class="dot" data-slide="2"></span>
+            </div>
+
+            <button class="testimonial-next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <!-- 👇 VIEW ALL BUTTON -->
+        <div style="text-align:center; margin-top:25px;">
+            <a href="reviews.html" class="btn btn-primary">
+                View All Reviews
+            </a>
+        </div>
+
+    </div>
+</section>
         <!-- Newsletter Section -->
         <section class="newsletter">
             <div class="newsletter-content">
@@ -855,4 +841,127 @@ navLinksAll.forEach(link => {
     });
 });
 </script>
+
+<script>
+let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+const slider = document.getElementById("testimonialSlider");
+
+function renderSlider() {
+
+    if (!slider) return;
+
+    slider.innerHTML = "";
+
+    if (reviews.length === 0) {
+        slider.innerHTML = `
+        <div class="testimonial-slide active">
+            <div class="review-card">
+                <div class="left">
+                    <h4>No reviews yet</h4>
+                    <p>Be the first to review Echo Perfume</p>
+                </div>
+            </div>
+        </div>`;
+        return;
+    }
+
+    reviews.slice(-5).reverse().forEach((r, i) => {
+
+        const stars = "★★★★★☆☆☆☆☆".slice(5 - r.rating, 10 - r.rating);
+
+        slider.innerHTML += `
+        <div class="testimonial-slide ${i === 0 ? "active" : ""}">
+
+            <div class="review-card">
+
+                <div class="left">
+
+                    <div class="user">
+                        <img src="https://i.pravatar.cc/50?img=${Math.floor(Math.random()*70)}">
+                        <div>
+                            <h4>${r.name}</h4>
+                            <small>Verified Buyer</small>
+                        </div>
+                    </div>
+
+                    <div class="stars">${stars}</div>
+
+                    <p class="review-text">${r.text}</p>
+
+                </div>
+
+                <img class="product-img" src="${r.productImg || 'image/men.jpg'}">
+
+            </div>
+
+        </div>
+        `;
+    });
+}
+
+
+renderSlider();
+</script>
+
+<script>
+const prevBtn = document.querySelector(".testimonial-prev");
+const nextBtn = document.querySelector(".testimonial-next");
+const dots = document.querySelectorAll(".dot");
+
+let index = 0;
+
+function updateSlider() {
+    const slides = document.querySelectorAll(".testimonial-slide");
+
+    slides.forEach((s, i) => {
+        s.classList.toggle("active", i === index);
+    });
+
+    dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === index);
+    });
+}
+
+// NEXT
+nextBtn.addEventListener("click", () => {
+    const slides = document.querySelectorAll(".testimonial-slide");
+    index = (index + 1) % slides.length;
+    updateSlider();
+});
+
+// PREV
+prevBtn.addEventListener("click", () => {
+    const slides = document.querySelectorAll(".testimonial-slide");
+    index = (index - 1 + slides.length) % slides.length;
+    updateSlider();
+});
+
+// DOT CLICK
+dots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+        index = parseInt(dot.dataset.slide);
+        updateSlider();
+    });
+});
+
+function resetDots() {
+    const dotContainer = document.querySelector(".testimonial-dots");
+    const slides = document.querySelectorAll(".testimonial-slide");
+
+    dotContainer.innerHTML = "";
+
+    slides.forEach((_, i) => {
+        dotContainer.innerHTML += `
+            <span class="dot ${i === 0 ? "active" : ""}" data-slide="${i}"></span>
+        `;
+    });
+}
+
+
+
+
+
+
+</script>
+
 </body></html>

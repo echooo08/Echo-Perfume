@@ -611,11 +611,13 @@ section {
   opacity: 0;
   transition: opacity 0.5s;
   padding: 20px;
+  z-index: 0;
 }
 
 .testimonial-slide.active {
   opacity: 1;
   position: relative;
+   z-index: 1; 
 }
 
 .testimonial-content {
@@ -1410,3 +1412,59 @@ section {
         text-align: center;
     }
 }
+
+
+
+.testimonial-slide{
+    display:none;
+    justify-content:center;
+}
+
+.testimonial-slide.active{
+    display:flex;
+}
+
+/* reuse mo yung review page design */
+.review-card{
+    background:rgba(255,255,255,0.05);
+    padding:20px;
+    border-radius:15px;
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    backdrop-filter: blur(10px);
+    align-items:center;
+    width:70%;
+}
+
+.review-card .user{
+    display:flex;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.review-card .user img{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    margin-right:10px;
+}
+
+.review-card .product-img{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.review-card .stars{
+    color:#f5c518;
+    margin:8px 0;
+}
+
+.review-card .review-text{
+    font-size:14px;
+    color:#ddd;
+}
+
+

@@ -1,0 +1,280 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Reviews | Echo Perfume</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+body{
+    margin:0;
+    font-family: 'Montserrat', sans-serif;
+    background:#0f0f0f;
+    color:white;
+}
+
+/* NAV */
+.navbar{
+    padding:20px;
+    text-align:center;
+    background:rgba(0,0,0,0.7);
+}
+.navbar a{
+    color:white;
+    text-decoration:none;
+    margin:0 15px;
+}
+
+/* HEADER */
+.header{
+    text-align:center;
+    padding:70px 20px;
+}
+.header h1{
+    font-size:40px;
+}
+.header span{
+    color:#d4af37;
+}
+
+/* REVIEWS */
+.reviews{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:25px;
+    padding:40px;
+}
+/* CARD */
+.review-card{
+    background:rgba(255,255,255,0.05);
+    padding:20px;
+    border-radius:15px;
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    backdrop-filter: blur(10px);
+    transition:0.3s;
+    align-items: center;
+}
+.review-card:hover{
+    transform:translateY(-8px);
+}
+
+/* LEFT CONTENT */
+.left{
+    flex:1;
+}
+
+/* USER */
+.user{
+    display:flex;
+    align-items:center;
+    margin-bottom:10px;
+}
+.user img{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    margin-right:10px;
+}
+
+/* PRODUCT (RIGHT SIDE) */
+.product-img{
+    width:130px;
+    height:130px;
+    object-fit:cover;
+    border-radius:12px;
+    align-self:center;
+}
+
+/* STARS */
+.stars{
+    color:#f5c518;
+    margin:8px 0;
+}
+
+/* REVIEW TEXT */
+.review-text{
+    font-size:14px;
+    line-height:1.6;
+    color:#ddd;
+}
+
+/* FORM */
+.review-form{
+    max-width:500px;
+    margin:50px auto;
+    padding:25px;
+    background:rgba(255,255,255,0.05);
+    border-radius:15px;
+}
+.review-form input,
+.review-form textarea,
+.review-form select{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border:none;
+    border-radius:5px;
+}
+
+/* BUTTON */
+.review-form button{
+    width:100%;
+    padding:12px;
+    background:#d4af37;
+    border:none;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* BACK */
+.back{
+    text-align:center;
+    margin:30px;
+}
+.back a{
+    color:#d4af37;
+    text-decoration:none;
+}
+
+
+@media (max-width: 768px){
+    .reviews{
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+</head>
+<body>
+
+
+<div class="navbar">
+    <a href="index.html">Home</a>
+    <a href="#">Reviews</a>
+</div>
+
+<div class="header">
+    <h1>Customer <span>Reviews</span></h1>
+    <p>Real experiences from our valued customers</p>
+</div>
+
+
+
+<!-- REVIEWS -->
+<div class="reviews" id="reviewsContainer"></div>
+
+<!-- FORM -->
+<div class="review-form">
+    <h3>Add Your Review</h3>
+
+    <input type="text" id="name" placeholder="Your Name">
+
+    <select id="product">
+        <option value="Black Sovereign|image/men.jpg">Black Sovereign</option>
+        <option value="Midnight Drift|image/men5.jpg">Midnight Drift</option>
+        <option value="Midnight Sakura|image/women10.jpg">Midnight Sakura</option>
+        <option value="Crimson Spark|image/Crimson Spark.jpg">Crimson Spark</option>
+    </select>
+
+    <select id="rating">
+        <option value="5">★★★★★</option>
+        <option value="4">★★★★☆</option>
+        <option value="3">★★★☆☆</option>
+        <option value="2">★★☆☆☆</option>
+        <option value="1">★☆☆☆☆</option>
+    </select>
+
+    <textarea id="reviewText" placeholder="Write your detailed review in English..."></textarea>
+
+    <button onclick="addReview()">Submit Review</button>
+</div>
+
+<div class="back">
+    <a href="index.html">← Back to Home</a>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", loadReviews);
+
+function addReview(){
+
+    const name = document.getElementById("name").value;
+    const rating = document.getElementById("rating").value;
+    const text = document.getElementById("reviewText").value;
+    const productData = document.getElementById("product").value;
+
+    if(!name || !text){
+        alert("Please complete all fields.");
+        return;
+    }
+
+    const [productName, productImg] = productData.split("|");
+
+    const review = {
+        name,
+        rating,
+        text,
+        productImg
+    };
+
+    let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+    reviews.push(review);
+    localStorage.setItem("reviews", JSON.stringify(reviews));
+
+    renderReview(review);
+
+    document.getElementById("name").value="";
+    document.getElementById("reviewText").value="";
+}
+
+function renderReview(review){
+
+    const stars = "★★★★★☆☆☆☆☆".slice(5-review.rating,10-review.rating);
+
+    const container = document.getElementById("reviewsContainer");
+
+    container.innerHTML += `
+    <div class="review-card">
+
+        <div class="left">
+
+            <div class="user">
+                <img src="https://i.pravatar.cc/50">
+                <div>
+                    <h4>${review.name}</h4>
+                    <small>New Customer</small>
+                </div>
+            </div>
+
+            <div class="stars">${stars}</div>
+
+            <p class="review-text">${review.text}</p>
+
+        </div>
+
+        <img class="product-img" src="${review.productImg}">
+
+    </div>
+    `;
+}
+
+function loadReviews(){
+
+    let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+
+    reviews.forEach(review => {
+        renderReview(review);
+    });
+}
+
+
+</script>
+
+</body>
+</html>
+```
