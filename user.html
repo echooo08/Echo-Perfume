@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Profile</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+
+/* ===== GLOBAL ===== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+body{background:#0b0b0b;color:#fff;}
+
+/* PROFILE CARD */
+.profile-card{
+  max-width:800px;
+  margin:40px auto;
+  background:rgba(0,0,0,0.7);
+  color:#fff;
+  border-radius:20px;
+  padding:25px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+.profile-pic{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  overflow:hidden;
+}
+
+.profile-pic img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.profile-info h2{
+  margin-bottom:8px;
+}
+
+.profile-info p{
+  font-size:14px;
+  margin:3px 0;
+}
+
+.icons{
+  margin-top:8px;
+}
+.icons i{
+  margin-right:8px;
+  color:#3aa6c9;
+}
+
+.edit-btn{
+  margin-top:10px;
+  background:#d4af37;
+  border:none;
+  padding:8px 14px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content{
+  background:#111;
+  padding:25px;
+  border-radius:12px;
+  width:300px;
+}
+
+.modal-content h3{
+  margin-bottom:10px;
+}
+
+.modal-content input{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  background:#222;
+  border:1px solid #444;
+  color:#fff;
+  border-radius:6px;
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+.btn-save{
+  background:#d4af37;
+  border:none;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.btn-cancel{
+  background:transparent;
+  border:1px solid #555;
+  color:#ccc;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:20px;
+}
+
+.left-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.back-btn{
+  background:transparent;
+  border:1px solid #555;
+  color:#fff;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.login-card{
+  max-width:800px;
+  margin:30px auto;
+  background:rgba(255,255,255,0.05);
+  padding:25px;
+  border-radius:12px;
+}
+
+.login-card h3{
+  margin-bottom:15px;
+}
+
+.login-card p{
+  margin:10px 0 5px;
+}
+
+.link{
+  display:inline-block;
+  margin-bottom:15px;
+  color:#d4af37;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.profile-pic{
+  cursor:pointer;
+  position:relative;
+}
+
+.profile-pic:hover::after{
+  content:"Change";
+  position:absolute;
+  bottom:0;
+  width:100%;
+  background:rgba(0,0,0,0.6);
+  color:#fff;
+  font-size:12px;
+  text-align:center;
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px;
+}
+
+/* CENTER TITLE */
+.title{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+/* LOGOUT BUTTON */
+.logout-btn{
+  background:#ff3b3b;
+  border:none;
+  color:#fff;
+  padding:6px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* RESPONSIVE FOR PHONE */
+@media (max-width:768px){
+
+  .profile-card{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .profile-pic{
+    width:100px;
+    height:100px;
+  }
+
+  .topbar{
+    flex-direction:row;
+    justify-content:space-between;
+    position:relative;
+  }
+
+  .title{
+    position:static;
+    transform:none;
+  }
+
+  .login-card{
+    margin:20px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <button class="back-btn" onclick="goBack()">
+    <i class="fa fa-arrow-left"></i> Back
+  </button>
+
+  <h2 class="title">My Account</h2>
+
+  <button class="logout-btn" onclick="logout()">
+    <i class="fa fa-sign-out-alt"></i> Logout
+  </button>
+</div>
+
+<!-- PROFILE -->
+<!-- PROFILE CARD -->
+<div class="profile-card">
+
+  <div class="profile-pic" onclick="uploadImage()">
+    <img id="profileImage" src="https://i.pravatar.cc/150?img=5">
+    <input type="file" id="fileInput" accept="image/*" hidden>
+  </div>
+
+  <div class="profile-info">
+    <h2 id="name">Princess Santos</h2>
+
+    <p id="email">Email: sample@gmail.com</p>
+    <p id="phone">Phone Number: 0912-345-6789</p>
+    <p id="dob">Date of Birth: August 29, 2006</p>
+    <p id="country">Country: Philippines</p>
+    <p id="regDate">Registration Date: April 24, 2025</p>
+
+    <div class="icons">
+      <i class="fab fa-facebook"></i>
+      <i class="fab fa-instagram"></i>
+      <i class="fab fa-twitter"></i>
+    </div>
+
+    <button class="edit-btn" onclick="openModal()">Edit Info</button>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3>Edit Info</h3>
+
+    <input type="text" id="inputName" placeholder="Full Name">
+    <input type="text" id="inputPhone" placeholder="Phone">
+    <input type="date" id="inputDOB">
+    <input type="text" id="inputAddress" placeholder="Address">
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="save()">Save</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="login-card">
+  <h3>Login Info</h3>
+
+  <p id="loginEmail">sample@gmail.com</p>
+  <span class="link" onclick="changeEmail()">Change Email</span>
+
+  <p id="loginPassword">••••••••</p>
+  <span class="link" onclick="changePassword()">Change Password</span>
+</div>
+
+
+<script>
+
+function loadUser(){
+  const user = JSON.parse(localStorage.getItem('user')) || {};
+
+  document.getElementById('name').innerText = user.name || "Princess Santos";
+  document.getElementById('email').innerText = "Email: " + (user.email || "sample@gmail.com");
+  document.getElementById('phone').innerText = "Phone Number: " + (user.phone || "0912-345-6789");
+  document.getElementById('dob').innerText = "Date of Birth: " + (user.dob || "August 29, 2006");
+  document.getElementById('country').innerText ="Address: " + (user.address || "Not set");
+  document.getElementById('regDate').innerText = "Registration Date: " + (user.regDate || "April 24, 2025");
+
+    document.getElementById('loginEmail').innerText =
+    user.email || "sample@gmail.com";
+
+    document.getElementById('loginPassword').innerText =
+  user.password ? "••••••••" : "••••••••";
+
+  // preload inputs
+  document.getElementById('inputName').value = user.name || "";
+  document.getElementById('inputPhone').value = user.phone || "";
+  document.getElementById('inputDOB').value = user.rawDOB || "";
+  document.getElementById('inputAddress').value = user.address || "";
+  document.getElementById('country').innerText =
+  "Address: " + (user.address || "Not set");
+}
+
+function openModal(){
+  document.getElementById('modal').style.display = "flex";
+}
+
+function closeModal(){
+  document.getElementById('modal').style.display = "none";
+}
+
+function save(){
+  const rawDOB = document.getElementById('inputDOB').value;
+
+  const user = {
+    name: document.getElementById('inputName').value,
+    phone: document.getElementById('inputPhone').value,
+    address: document.getElementById('inputAddress').value,
+    email: JSON.parse(localStorage.getItem('user'))?.email || "sample@gmail.com",
+    regDate: JSON.parse(localStorage.getItem('user'))?.regDate || "April 24, 2025",
+    rawDOB: rawDOB,
+    dob: formatDate(rawDOB)
+  };
+
+  localStorage.setItem('user', JSON.stringify(user));
+
+  loadUser();
+  closeModal();
+
+  document.getElementById('inputName').value = "";
+document.getElementById('inputPhone').value = "";
+document.getElementById('inputDOB').value = "";
+document.getElementById('inputAddress').value = "";
+
+
+  alert("Updated!");
+}
+
+
+
+function formatDate(dateStr){
+  if(!dateStr) return "";
+  const d = new Date(dateStr);
+  return d.toLocaleDateString("en-US", {year:'numeric',month:'long',day:'numeric'});
+}
+
+loadUser();
+
+
+
+document.getElementById('loginEmail').innerText =
+  user.email || "sample@gmail.com";
+
+
+  function goBack(){
+  window.location.href = "index.html";
+}
+
+function changeEmail(){
+  document.getElementById('emailModal').style.display = "flex";
+}
+
+function closeEmail(){
+  document.getElementById('emailModal').style.display = "none";
+}
+
+function saveEmail(){
+  const newEmail = document.getElementById('newEmail').value.trim();
+
+  if(newEmail && newEmail.includes("@")){
+    let user = JSON.parse(localStorage.getItem('user')) || {};
+
+    user.email = newEmail;
+
+    localStorage.setItem('user', JSON.stringify(user));
+
+    loadUser(); // 🔥 THIS updates label instantly
+
+    document.getElementById('newEmail').value = "";
+    closeEmail();
+
+    alert("Email updated successfully!");
+  } else {
+    alert("Please enter a valid email!");
+  }
+}
+function changePassword(){
+  document.getElementById('passwordModal').style.display = "flex";
+}
+
+function closePassword(){
+  document.getElementById('passwordModal').style.display = "none";
+}
+
+function savePassword(){
+  const newPass = document.getElementById('newPassword').value.trim();
+
+  if(newPass.length >= 4){
+    let user = JSON.parse(localStorage.getItem('user')) || {};
+
+    user.password = newPass;
+
+    localStorage.setItem('user', JSON.stringify(user));
+
+    loadUser(); // 🔥 refresh UI (important)
+
+    document.getElementById('newPassword').value = "";
+    closePassword();
+
+    alert("Password updated successfully!");
+  } else {
+    alert("Password must be at least 4 characters!");
+  }
+}
+
+function uploadImage(){
+  document.getElementById('fileInput').click();
+}
+
+document.getElementById("fileInput").addEventListener("change", function(){
+  const file = this.files[0];
+
+  if(file){
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+      const imgData = e.target.result;
+
+      let user = JSON.parse(localStorage.getItem('user')) || {};
+      user.profileImage = imgData;
+
+      localStorage.setItem('user', JSON.stringify(user));
+
+      document.getElementById("profileImage").src = imgData;
+    };
+
+    reader.readAsDataURL(file);
+  }
+});
+
+function logout(){
+  localStorage.removeItem("user");
+  alert("Logged out!");
+  window.location.href = "login.html"; // palitan kung ibang page mo
+}
+</script>
+
+<!-- EMAIL MODAL -->
+<div class="modal" id="emailModal">
+  <div class="modal-content">
+    <h3>Change Email</h3>
+
+    <input type="email" id="newEmail" placeholder="Enter new email">
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEmail()">Cancel</button>
+      <button class="btn-save" onclick="saveEmail()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- PASSWORD MODAL -->
+<div class="modal" id="passwordModal">
+  <div class="modal-content">
+    <h3>Change Password</h3>
+
+    <input type="password" id="newPassword" placeholder="Enter new password">
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closePassword()">Cancel</button>
+      <button class="btn-save" onclick="savePassword()">Save</button>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

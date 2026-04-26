@@ -1005,11 +1005,8 @@ td{
 <div id="users" class="section">
 
   <div class="topbar">
-    <h2>Users</h2>
-    <button class="logout-btn" onclick="addUser()">
-      <i class="fas fa-user-plus"></i> Add User
-    </button>
-  </div>
+  <h2>Users</h2>
+</div>
 
   <table>
     <thead>
@@ -1027,11 +1024,10 @@ td{
 
 </div>
 
-
+<script src="products.js"></script>
 <script>
 /* ---- Products ---- */
 let products = JSON.parse(localStorage.getItem('products')) || [];
-
 function show(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -1294,17 +1290,7 @@ function renderUsers(){
   localStorage.setItem('users', JSON.stringify(users));
 }
 
-function addUser(){
-  const name = prompt("Enter name:");
-  const email = prompt("Enter email:");
-  const number = prompt("Enter number:");
-  const role = prompt("Enter role (Admin/User):");
 
-  if(name && email){
-    users.push({name,email,number,role});
-    renderUsers();
-  }
-}
 
 
 function editUser(i){
@@ -1370,8 +1356,31 @@ show('dashboard');
 </div>
 
 
+<script>
+function renderProducts() {
+    const table = document.getElementById("productList");
 
+    table.innerHTML = "";
 
+    PRODUCTS.forEach((p, index) => {
+        table.innerHTML += `
+        <tr>
+            <td>${p.name}</td>
+            <td>${p.category}</td>
+            <td>${p.price}</td>
+            <td>${p.stock}</td>
+            <td>${p.status}</td>
+            <td>
+                <button onclick="editProduct(${index})">Edit</button>
+                <button onclick="deleteProduct(${index})">Delete</button>
+            </td>
+        </tr>
+        `;
+    });
+}
+
+renderProducts();
+</script>
 
 </body>
 </html>
