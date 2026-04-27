@@ -1150,7 +1150,17 @@ function del(i){
 }
 
 function logout(){
-  if(confirm('Log out?')) alert('Logged out successfully.');
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("role");
+    localStorage.removeItem("userEmail");
+
+    /* clear cart */
+    localStorage.removeItem("cart");
+    localStorage.removeItem("checkoutCart");
+
+    alert("Admin logged out!");
+
+    window.location.href = "index.html";
 }
 
 render();

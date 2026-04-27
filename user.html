@@ -320,8 +320,14 @@ function loadUser(){
 
   document.getElementById('name').innerText = user.name || "Princess Santos";
   document.getElementById('email').innerText = "Email: " + (user.email || "sample@gmail.com");
-  document.getElementById('phone').innerText = "Phone Number: " + (user.phone || "0912-345-6789");
-  document.getElementById('dob').innerText = "Date of Birth: " + (user.dob || "August 29, 2006");
+document.getElementById('phone').innerText =
+"Phone Number: " + (user.phone || "Not set");
+
+document.getElementById('dob').innerText =
+"Date of Birth: " + (user.dob || "Not set");
+
+document.getElementById('country').innerText =
+"Address: " + (user.address || "Not set");
   document.getElementById('country').innerText ="Address: " + (user.address || "Not set");
   document.getElementById('regDate').innerText = "Registration Date: " + (user.regDate || "April 24, 2025");
 
@@ -349,30 +355,55 @@ function closeModal(){
 }
 
 function save(){
-  const rawDOB = document.getElementById('inputDOB').value;
 
-  const user = {
-    name: document.getElementById('inputName').value,
-    phone: document.getElementById('inputPhone').value,
-    address: document.getElementById('inputAddress').value,
-    email: JSON.parse(localStorage.getItem('user'))?.email || "sample@gmail.com",
-    regDate: JSON.parse(localStorage.getItem('user'))?.regDate || "April 24, 2025",
-    rawDOB: rawDOB,
-    dob: formatDate(rawDOB)
+  const rawDOB = document.getElementById('inputDOB').value;
+  let user = JSON.parse(localStorage.getItem('user')) || {};
+
+  user.name = document.getElementById('inputName').value;
+  user.phone = document.getElementById('inputPhone').value;
+  user.address = document.getElementById('inputAddress').value;
+
+  user.dob = rawDOB ? formatDate(rawDOB) : "";
+  user.rawDOB = rawDOB;
+
+  // KEEP EXISTING DATA
+  user.email = user.email;
+  user.password = user.password;
+  user.regDate = user.regDate;
+
+  // 🔥 1. SAVE CURRENT USER (MAIN SOURCE)
+  localStorage.setItem('user', JSON.stringify(user));
+
+  // 🔥 2. UPDATE EMAIL KEY (IMPORTANT FOR LOGIN RELOAD)
+  localStorage.setItem(user.email, JSON.stringify(user));
+
+  // 🔥 3. UPDATE USERS ARRAY (ADMIN TABLE)
+  let users = JSON.parse(localStorage.getItem('users')) || [];
+
+  const emailKey = user.email.trim().toLowerCase();
+  const index = users.findIndex(u =>
+    (u.email || "").trim().toLowerCase() === emailKey
+  );
+
+  const updatedUser = {
+    name: user.name,
+    email: user.email,
+    number: user.phone,
+    role: "User"
   };
 
-  localStorage.setItem('user', JSON.stringify(user));
+  if (index !== -1) {
+    users[index] = updatedUser;
+  } else {
+    users.push(updatedUser);
+  }
+
+  localStorage.setItem('users', JSON.stringify(users));
 
   loadUser();
   closeModal();
 
-  document.getElementById('inputName').value = "";
-document.getElementById('inputPhone').value = "";
-document.getElementById('inputDOB').value = "";
-document.getElementById('inputAddress').value = "";
-
-
-  alert("Updated!");
+  alert("Updated successfully!");
 }
 
 
@@ -478,9 +509,17 @@ document.getElementById("fileInput").addEventListener("change", function(){
 });
 
 function logout(){
-  localStorage.removeItem("user");
-  alert("Logged out!");
-  window.location.href = "login.html"; // palitan kung ibang page mo
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("role");
+    localStorage.removeItem("userEmail");
+
+    /* clear cart */
+    localStorage.removeItem("cart");
+    localStorage.removeItem("checkoutCart");
+
+    alert("Logged out successfully!");
+
+    window.location.href = "index.html";
 }
 </script>
 

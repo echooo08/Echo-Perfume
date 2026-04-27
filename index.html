@@ -45,7 +45,9 @@
     <i class="fas fa-shopping-bag"></i>
     <span class="cart-count">0</span>
 </a>
-                    <a href="#" class="nav-icon"><i class="fas fa-user"></i></a>
+                    <a href="#" class="nav-icon" id="profileIcon">
+    <i class="fas fa-user" id="profileIconInner"></i>
+</a>
                     <button class="hamburger" id="hamburger">
                         <i class="fas fa-bars"></i>
                     </button>
@@ -657,6 +659,14 @@ function getSelectedCartItems() {
 
 
 function checkoutSelected() {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+    if (isLoggedIn !== "true") {
+        alert("Please login first before checkout");
+        window.location.href = "login.html";
+        return;
+    }
+
     const selectedItems = getSelectedCartItems();
 
     if (selectedItems.length === 0) {
@@ -665,7 +675,6 @@ function checkoutSelected() {
     }
 
     localStorage.setItem("checkoutCart", JSON.stringify(selectedItems));
-
     window.location.href = "checkout.html";
 }
 
@@ -963,5 +972,43 @@ function resetDots() {
 
 
 </script>
+<script>
+function updateProfileIcon() {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    const role = localStorage.getItem("role");
 
+    const profileIcon = document.getElementById("profileIcon");
+    const profileIconInner = document.getElementById("profileIconInner");
+
+    if (!profileIcon) return;
+
+    if (isLoggedIn === "true") {
+        if (role === "admin") {
+            profileIconInner.className = "fas fa-user-shield";
+
+            profileIcon.onclick = function(e) {
+                e.preventDefault();
+                window.location.href = "admin.html";
+            };
+        } else {
+            profileIconInner.className = "fas fa-user-circle";
+
+            profileIcon.onclick = function(e) {
+                e.preventDefault();
+                window.location.href = "user.html";
+            };
+        }
+    } else {
+        profileIconInner.className = "fas fa-user";
+
+        profileIcon.onclick = function(e) {
+            e.preventDefault();
+            window.location.href = "login.html";
+        };
+    }
+}
+
+updateProfileIcon();
+window.addEventListener("pageshow", updateProfileIcon);
+</script>
 </body></html>
