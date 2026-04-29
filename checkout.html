@@ -197,6 +197,83 @@
 }
 
 
+/* ===== MOBILE FIX CORE ===== */
+@media (max-width: 768px) {
+
+    .checkout-container {
+        padding: 100px 5%;
+    }
+
+    .checkout-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .checkout-header-top {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .checkout-title {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .checkout-form,
+    .order-summary {
+        padding: 18px;
+    }
+
+    .form-group input,
+    .form-group select {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .cart-item img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .summary-item {
+        font-size: 14px;
+    }
+
+    .place-order {
+        font-size: 15px;
+        padding: 12px;
+    }
+}
+
+/* extra small phones */
+@media (max-width: 480px) {
+
+    .checkout-title {
+        font-size: 20px;
+    }
+
+    .checkout-container {
+        padding: 90px 4%;
+    }
+
+    .checkout-form input,
+    .checkout-form select {
+        font-size: 13px;
+    }
+
+    .order-summary {
+        padding: 15px;
+    }
+}
+
+
     </style>
 </head>
 

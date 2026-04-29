@@ -354,16 +354,7 @@ function getSelectedItems() {
 }
 
 function checkoutSelected() {
-    let selectedItems = cart.filter(item => item.checked);
-
-    if (selectedItems.length === 0) {
-        alert("Please select items to checkout");
-        return;
-    }
-
-    localStorage.setItem("checkoutCart", JSON.stringify(selectedItems));
-
-    window.location.href = "checkout.html";
+    checkoutSelectedGlobal(getSelectedItems);
 }
 
 function syncCartToDrawer() {
@@ -379,5 +370,5 @@ window.addEventListener("storage", () => {
     displayCart?.();
 });
 </script>
-
+<script src="auth.js"></script>
 </body></html>

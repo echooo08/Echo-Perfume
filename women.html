@@ -66,9 +66,7 @@
             View Cart
         </button>
 
-      <button class="checkout-btn" onclick="checkoutSelected()">
-    Checkout
-</button>
+        <button class="checkout-btn" onclick="checkoutFromDrawer()">Checkout</button>
     </div>
 </div>
 
@@ -408,16 +406,13 @@ document.addEventListener("change", function(e) {
 
 // CHECKOUT SELECTED
 function checkoutSelected() {
-    const selected = cart.filter(item => item.checked);
-
-    if (selected.length === 0) {
-        alert("Walang naka-check na item!");
-        return;
-    }
-
-    localStorage.setItem("checkoutCart", JSON.stringify(selected));
-    window.location.href = "checkout.html";
+    checkoutSelectedGlobal(getSelectedItems);
 }
+
+function checkoutDrawerCheckout() {
+    checkoutFromDrawer(getSelectedCartItems);
+}
+
 
 // INIT
 updateCartUI();
@@ -443,5 +438,5 @@ document.querySelectorAll(".nav-links a").forEach(link => {
     });
 });
 </script>
-
+<script src="auth.js"></script>
 </body> </html>

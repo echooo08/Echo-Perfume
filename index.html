@@ -481,7 +481,7 @@
         View Cart
     </button>
 
-   <button class="checkout-btn" onclick="checkoutSelected()">Checkout</button>
+   <button class="checkout-btn" onclick="checkoutDrawerCheckout()">Checkout</button>
 </div>
 </div>
 
@@ -657,25 +657,13 @@ function getSelectedCartItems() {
     return selected;
 }
 
-
 function checkoutSelected() {
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    checkoutSelectedGlobal(getSelectedItems);
+}
 
-    if (isLoggedIn !== "true") {
-        alert("Please login first before checkout");
-        window.location.href = "login.html";
-        return;
-    }
 
-    const selectedItems = getSelectedCartItems();
-
-    if (selectedItems.length === 0) {
-        alert("Walang naka-check na item!");
-        return;
-    }
-
-    localStorage.setItem("checkoutCart", JSON.stringify(selectedItems));
-    window.location.href = "checkout.html";
+function checkoutDrawerCheckout() {
+    checkoutFromDrawer(getSelectedCartItems);
 }
 
 
@@ -1011,4 +999,6 @@ function updateProfileIcon() {
 updateProfileIcon();
 window.addEventListener("pageshow", updateProfileIcon);
 </script>
+
+<script src="auth.js"></script>
 </body></html>
