@@ -300,6 +300,12 @@ document.getElementById("loginForm").addEventListener("submit", function(e){
 localStorage.setItem("isLoggedIn", "true");
 localStorage.setItem("role", "user");
 localStorage.setItem("userEmail", email);
+localStorage.setItem("user", JSON.stringify(userData));
+
+localStorage.setItem("currentUser", JSON.stringify({
+    email: email,
+    name: userData.name
+}));
 
 // 🔥 IMPORTANT: ALWAYS LOAD FROM STORED ACCOUNT
 localStorage.setItem("user", JSON.stringify(userData));

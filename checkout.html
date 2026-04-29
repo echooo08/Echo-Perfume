@@ -313,7 +313,7 @@
             </div>
 
             <div class="form-group">
-                <input type="text" placeholder="ZIP Code">
+               <input type="number" placeholder="ZIP Code" min="1000" max="9999">
             </div>
 
             <div class="form-group">
@@ -446,9 +446,28 @@ document.querySelector(".place-order").addEventListener("click", function() {
     document.getElementById("order-popup").style.display = "flex";
 
     // ✅ CLEAR CART
-    localStorage.removeItem("cart");
-    cart = [];
-    renderCart();
+    // ✅ HUWAG BURAHIN ANG CART
+// retain lang ang cart pagkatapos ng place order
+// ✅ REMOVE ONLY CHECKOUT ITEMS
+// mawawala lang yung inorder sa checkout
+// pero mananatili ang ibang nasa main cart
+
+let mainCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+// tanggalin lang ang mga item na nasa checkoutCart
+mainCart = mainCart.filter(mainItem =>
+    !cart.some(checkoutItem =>
+        checkoutItem.name === mainItem.name
+    )
+);
+
+// save updated main cart
+localStorage.setItem("cart", JSON.stringify(mainCart));
+
+// clear checkout page only
+localStorage.removeItem("checkoutCart");
+cart = [];
+renderCart();
 
     // ✅ AUTO REDIRECT AFTER 2.5s
     setTimeout(() => {
